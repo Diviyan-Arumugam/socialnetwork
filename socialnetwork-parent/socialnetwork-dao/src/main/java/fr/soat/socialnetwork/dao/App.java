@@ -1,4 +1,4 @@
-package org.socialnetwork.dao;
+package fr.soat.socialnetwork.dao;
 
 /**
  * Hello world!

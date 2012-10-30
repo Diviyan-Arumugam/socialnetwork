@@ -1,4 +1,4 @@
-package org.socialnetwork.dao;
+package fr.soat.socialnetwork.dao;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
