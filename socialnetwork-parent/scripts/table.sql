@@ -1,0 +1,7 @@
+CREATE TABLE socialnetwork.users (
+   ID INT,
+   LASTNAME VARCHAR(50),
+   FIRSTNAME VARCHAR(50),
+   EMAIL VARCHAR(50),
+  PRIMARY KEY (ID)
+) ENGINE = InnoDB COMMENT = 'table of users' ROW_FORMAT = DEFAULT;
