@@ -23,10 +23,8 @@
         <groupId>fr.soat.socialnetwork</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>fr.soat.socialnetwork</groupId>
     <artifactId>socialnetwork-ui</artifactId>
     <packaging>war</packaging>
-    <version>0.0.1-SNAPSHOT</version>
     <name>socialnetwork-ui</name>
     <description>A custom project using MyFaces 2.0</description>
     <url>http://www.myorganization.org</url>
@@ -58,11 +56,12 @@
     </properties>
 
     <build>
-        <finalName>socialnetwork-ui</finalName>
+        <finalName>socialnetwork</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -177,7 +176,7 @@
                                 </systemProperty>
                             </systemProperties>
                             <webApp>
-                                <contextPath>/${artifactId}</contextPath>
+                                <contextPath>/${project.build.finalName}</contextPath>
                             </webApp>
                             <scanIntervalSeconds>5</scanIntervalSeconds>
                         </configuration>
@@ -265,7 +264,7 @@
                                 </systemProperty>
                             </systemProperties>
                             <webApp>
-                                <contextPath>/${artifactId}</contextPath>
+                                <contextPath>/${project.artifactId}</contextPath>
                             </webApp>
                             <scanIntervalSeconds>5</scanIntervalSeconds>
                         </configuration>
