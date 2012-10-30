@@ -1,4 +1,4 @@
-package org.socialnetwork.service;
+package fr.soat.socialnetwork.service;
 
 /**
  * Hello world!

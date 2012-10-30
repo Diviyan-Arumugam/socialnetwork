@@ -1,4 +1,4 @@
-package org.socialnetwork.service;
+package fr.soat.socialnetwork.service;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
