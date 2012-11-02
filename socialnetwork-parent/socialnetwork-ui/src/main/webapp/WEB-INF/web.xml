@@ -83,7 +83,7 @@
         <param-name>org.apache.myfaces.annotation.SCAN_PACKAGES</param-name>
         <param-value>fr.soat.socialnetwork.ui</param-value>
     </context-param>
-
+    
     <!-- Faces Servlet -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -96,6 +96,13 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
+    
+    <listener>
+        <description>guice integration using GuiceResolver in faces-config.xml</description>
+        <listener-class>
+        fr.soat.socialnetwork.ui.guice.GuiceServletContextListener
+        </listener-class>
+    </listener> 
 
     <!-- Welcome files -->
     <welcome-file-list>

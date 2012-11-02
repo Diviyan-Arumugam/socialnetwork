@@ -5,6 +5,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
+    <application>
+        <el-resolver>fr.soat.socialnetwork.ui.guice.MyGuiceResolver</el-resolver>
+    </application>
+    
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
