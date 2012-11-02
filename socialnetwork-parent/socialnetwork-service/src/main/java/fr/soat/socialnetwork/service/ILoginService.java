@@ -1,5 +1,7 @@
 package fr.soat.socialnetwork.service;
 
+import fr.soat.socialnetwork.bo.IUser;
+
 public interface ILoginService {
-	boolean isValidUser(String userName, String password);
+	IUser getUser(String userName, String password);
 }
