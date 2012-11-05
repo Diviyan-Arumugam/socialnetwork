@@ -1,6 +1,7 @@
 package fr.soat.socialnetwork.ui;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 import com.google.inject.Inject;
@@ -8,7 +9,7 @@ import com.google.inject.Inject;
 import fr.soat.socialnetwork.bo.IUser;
 import fr.soat.socialnetwork.service.ILoginService;
 
-@ManagedBean(name="login")
+@ManagedBean
 @RequestScoped
 public class LoginBean {
 
@@ -36,7 +37,7 @@ public class LoginBean {
 		this.password = password;
 	}
 
-	public boolean validateUser() {
+	public Boolean validateUser() {
 		IUser user = loginService.getUser(username, password);
 		return user.isValidUser();		
 	}

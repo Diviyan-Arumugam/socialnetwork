@@ -12,7 +12,8 @@
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>login</from-outcome>
+            <from-action>#{loginBean.validateUser}</from-action>
+            <from-outcome>true</from-outcome>
             <to-view-id>/welcome.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
