@@ -10,13 +10,14 @@
 <h:body>
     <h:outputStylesheet name="style.css" library="css"/>
     <h:form>
+        <h:messages />
         <h:panelGrid columns="2">
             <h:outputText value="Name" />
-            <h:inputText value="#{loginBean.user}" />
+            <h:inputText value="#{login.user}" />
             <h:outputText value="Password" />
-            <h:inputSecret value="#{loginBean.password}" />
+            <h:inputSecret value="#{login.password}" />
         </h:panelGrid>
-        <h:commandButton value="Login" action="#{loginBean.validateUser}" />
+        <h:commandButton value="Login" action="#{login.validateUser}" />
     </h:form>
 </h:body>
 

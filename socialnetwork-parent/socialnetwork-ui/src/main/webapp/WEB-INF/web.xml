@@ -98,9 +98,9 @@
     </servlet-mapping>
     
     <listener>
-        <description>guice integration using GuiceResolver in faces-config.xml</description>
+        <description>IOC using OpenWebBeans</description>
         <listener-class>
-        fr.soat.socialnetwork.ui.guice.GuiceServletContextListener
+        org.apache.webbeans.servlet.WebBeansConfigurationListener
         </listener-class>
     </listener> 
 
