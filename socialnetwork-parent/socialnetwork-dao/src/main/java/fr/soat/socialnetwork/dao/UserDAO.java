@@ -2,13 +2,17 @@ package fr.soat.socialnetwork.dao;
 
 import javax.persistence.EntityManager;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 
-import fr.soat.socialnetwork.dao.entity.User;
+import fr.soat.socialnetwork.dao.entity.UserDTO;
 
 public class UserDAO implements IUserDAO {
-    @Inject EntityManager em;
+	@Inject
+	EntityManager em;
 
 	public EntityManager getEntityManager() {
 		return em;
@@ -18,29 +22,43 @@ public class UserDAO implements IUserDAO {
 		this.em = em;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.soat.socialnetwork.dao.IUserDAO#find(long)
 	 */
 	@Transactional
-    public User find(long id) {
-        return em.find(User.class, id);
-    }
- 
-    /* (non-Javadoc)
-	 * @see fr.soat.socialnetwork.dao.IUserDAO#save(fr.soat.socialnetwork.dao.User)
+	public UserDTO find(long id) {
+		return em.find(UserDTO.class, id);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.soat.socialnetwork.dao.IUserDAO#save(fr.soat.socialnetwork.dao.User)
 	 */
-    @Transactional
-    public void save(User entity) {
-        em.persist(entity);
-    }
-    
-    /* (non-Javadoc)
-	 * @see fr.soat.socialnetwork.dao.IUserDAO#getByEmail(java.lang.String)
+	@Transactional
+	public UserDTO save(UserDTO entity) {
+		em.persist(entity);
+		return em.merge(entity);
+	}
+
+	public UserDTO getByEmail(String email) {
+		Session sesion = (Session) em.getDelegate();
+		return (UserDTO) sesion.createCriteria(UserDTO.class).add(
+				Restrictions.eq("email", email)).uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.soat.socialnetwork.dao.IUserDAO#update(fr.soat.socialnetwork.dao.User)
 	 */
-    public User getByEmail(String email) {
-        return (User) em
-            .createQuery("select firstname from users e where e.email=:email")
-            .setParameter("email", email)
-            .getSingleResult();
-      }
+	@Transactional
+	public UserDTO update(UserDTO entity) {
+		em.persist(entity);
+		return em.merge(entity);
+	}
 }

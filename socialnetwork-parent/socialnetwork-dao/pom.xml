@@ -44,8 +44,32 @@
 			<artifactId>guice-persist</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<goalPrefix>plugin</goalPrefix>
+					<outputDirectory>target</outputDirectory>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven</groupId>
+						<artifactId>maven-plugin-api</artifactId>
+						<type>jar</type>
+						<version>3.0.4</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
 		<filters>
 			<filter>src/main/filters/default.properties</filter>
 		</filters>

@@ -11,9 +11,13 @@ import com.google.inject.Injector;
 
 import fr.soat.socialnetwork.SoatSocialDAOModule;
 import fr.soat.socialnetwork.dao.UserDAO;
-import fr.soat.socialnetwork.dao.entity.User;
+import fr.soat.socialnetwork.dao.entity.UserDTO;
 
 public class UserDAOTest {
+	
+	private final String firstName = "firstName";
+	private final String lastName = "lastName";
+	private final String email = "guillaume.prehu@soat.fr";
 
 	@Inject
 	UserDAO dao;
@@ -21,7 +25,7 @@ public class UserDAOTest {
 	@Before
 	public void setUp() throws Exception {
 		Injector injector = Guice.createInjector(new SoatSocialDAOModule());
-		injector.injectMembers(this);
+		dao = injector.getInstance(UserDAO.class);
 		dao.getEntityManager().getTransaction().begin();
 	}
 
@@ -34,35 +38,42 @@ public class UserDAOTest {
 	}
 
 	@Test
+	public void testGetEntityManager() {
+		Assert.assertNotNull(dao.getEntityManager());
+	}
+	
+	@Test
 	public void testInsert() {
-		User user = new User();
-		user.setFirstName("user1");
-		user.setLastName("password");
-		dao.save(user);
+		UserDTO user = createUser();
 		Assert.assertNotNull(user.getId());
 	}
-	//
-	// @Test
-	// public void testFindsetUsername("user1");
-	// user.setPassword("password");
-	// user.setStatus(Boolean.TRUE);
-	// Long id = dao.insert(user);
-	// Assert.assertNotNull(dao.find(id));
-	// }
-	//
-	// @Test
-	// public void testUpdate() {
-	// User user = new User();
-	// user.setUsername("user1");
-	// user.setPassword("password");
-	// user.setStatus(Boolean.TRUE);
-	// Long id = dao.insert(user);
-	// user.setUsername("user2");
-	// User user2 = dao.find(id);
-	// assertEquals("user2", user2.getUsername());
-	// }
-	//
-	//
+
+	private UserDTO createUser() {
+		UserDTO user = new UserDTO(firstName, lastName, email);
+		dao.save(user);
+		return user;
+	}
+
+	@Test
+	public void testFindByEmail() {
+		UserDTO user = createUser();
+		dao.save(user);
+		UserDTO userStored = dao.getByEmail(email);
+		Assert.assertNotNull(userStored);
+		Assert.assertEquals(user, userStored);
+	}
+
+	@Test
+	public void testUpdate() {
+		UserDTO user = createUser();
+		UserDTO userStored = dao.save(user);
+		Assert.assertNotNull(userStored);
+		Assert.assertNotNull(userStored.getId());
+		userStored.setFirstName("user2");
+		user = dao.update(userStored);
+		Assert.assertEquals(userStored, user);
+	}
+
 	// @Test
 	// public void testDelete() {
 	// User user = new User();
@@ -75,18 +86,8 @@ public class UserDAOTest {
 	// }
 	//
 	//
-	// @Test
-	// public void testGetEntityManager() {
-	// Assert.assertNotNull(dao.getEntityManager());
-	// }
-	//
-	//
-	// @Test
-	// public void testGetEntityClass() {
-	// assertEquals(User.class, dao.getEntityClass());
-	// }
-	//
-	//
+	
+
 	// @Test
 	// public void testFindAll() {
 	// User user = new User();

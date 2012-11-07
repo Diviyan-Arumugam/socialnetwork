@@ -2,16 +2,17 @@ package fr.soat.socialnetwork.dao;
 
 import com.google.inject.persist.Transactional;
 
-import fr.soat.socialnetwork.dao.entity.User;
+import fr.soat.socialnetwork.dao.entity.UserDTO;
 
 public interface IUserDAO {
 
 	@Transactional
-	public abstract User find(long id);
+	public abstract UserDTO find(long id);
 
 	@Transactional
-	public abstract void save(User entity);
+	public abstract UserDTO save(UserDTO entity);
 
-	public abstract User getByEmail(String email);
+	@Transactional
+	public abstract UserDTO getByEmail(String email);
 	
 }
