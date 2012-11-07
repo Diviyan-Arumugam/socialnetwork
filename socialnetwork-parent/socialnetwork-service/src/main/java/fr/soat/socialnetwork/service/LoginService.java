@@ -7,8 +7,8 @@ import fr.soat.socialnetwork.bo.WrongUser;
 public class LoginService implements ILoginService {
 
 	public IUser getUser(String userName, String password) {
-		if (("chris".equals(userName)) &&
-			("chris".equals(password)))
+		if (("christophe".equals(userName)) &&
+			("christophe".equals(password)))
 			return new User();
 		else
 			return new WrongUser();
