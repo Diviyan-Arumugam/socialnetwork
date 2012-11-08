@@ -6,4 +6,12 @@ public class WrongUser implements IUser {
 		return false;
 	}
 
+	public String getName() {
+		return "";
+	}
+
+	public String getPassword() {
+		return "";
+	}
+
 }

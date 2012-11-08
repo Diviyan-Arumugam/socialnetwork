@@ -23,13 +23,16 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.verify;
-
+import static org.mockito.Mockito.never;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginBeanTest {
 
 	@Mock
 	private ILoginService loginService;
+	
+	@Mock
+	private IRememberMeService rememberMeService;
 	
 	@Mock
 	private UserSessionBean userSession;
@@ -41,23 +44,71 @@ public class LoginBeanTest {
 	
 	private LoginBean loginBean;
 	
-	private void createLoginBean() {
-		loginBean = new LoginBean(loginService, facesContext, userSession);
+	private void createEmptyLoginBean() {
+		loginBean = new LoginBean(
+				loginService, 
+				rememberMeService, 
+				facesContext, 
+				userSession);
+	}
+	
+	private void createLoginBean()
+	{
+		createEmptyLoginBean();
 		loginBean.setUser(userName);
 		loginBean.setPassword(userPassword);
 	}
 	
-	@Test
-	public void shouldNotValidateWrongUser()
-	{
-		// given
+	private void createLoginBeanWithWrongUser() {
+		createWrongUser();
+		createLoginBean();
+	}
+
+	private void createWrongUser() {
 		IUser wrongUser = new WrongUser();
 		when
 			(loginService.getUser(userName, userPassword)).
 		thenReturn
 			(wrongUser);
+	}
+
+	private IUser createLoginBeanWithValidUser() {
+		IUser realUser = createValidUser();
+		when
+			(loginService.getUser(userName, userPassword)).
+		thenReturn
+			(realUser);
 		
 		createLoginBean();
+		
+		return realUser;
+	}
+
+	private IUser createValidUser() {
+		IUser realUser = mock(IUser.class);
+		when
+			(realUser.isValidUser()).
+		thenReturn
+			(true);
+
+		when
+			(realUser.getName()).
+		thenReturn
+			(userName);
+		
+		when
+			(realUser.getPassword()).
+		thenReturn
+			(userPassword);
+
+		return realUser;
+	}
+
+	@Test
+	public void shouldNotValidateWrongUser()
+	{
+		// given
+		createLoginBeanWithWrongUser();
 		
 		// when
 		boolean result = loginBean.validateUser();
@@ -66,22 +117,11 @@ public class LoginBeanTest {
 		assertThat(result, is(equalTo(false)));
 	}
 
-
 	@Test
 	public void shouldValidateRealUser()
 	{
 		// given
-		IUser realUser = mock(IUser.class);
-		when
-			(realUser.isValidUser()).
-		thenReturn
-			(true);
-		when
-			(loginService.getUser(userName, userPassword)).
-		thenReturn
-			(realUser);
-		
-		createLoginBean();
+		createLoginBeanWithValidUser();
 		
 		// when
 		boolean result = loginBean.validateUser();
@@ -89,22 +129,12 @@ public class LoginBeanTest {
 		// then
 		assertThat(result, is(equalTo(true)));
 	}
-	
+
 	@Test
 	public void shouldPutValidUserInSession()
 	{
 		// given
-		IUser realUser = mock(IUser.class);
-		when
-			(realUser.isValidUser()).
-		thenReturn
-			(true);
-		when
-			(loginService.getUser(userName, userPassword)).
-		thenReturn
-			(realUser);
-		
-		createLoginBean();
+		IUser realUser = createLoginBeanWithValidUser();
 
 		// when
 		loginBean.validateUser();
@@ -117,13 +147,7 @@ public class LoginBeanTest {
 	public void shouldDisplayErrorMessageForWrongUser()
 	{
 		// given
-		IUser wrongUser = new WrongUser();
-		when
-			(loginService.getUser(userName, userPassword)).
-		thenReturn
-			(wrongUser);
-		
-		createLoginBean();
+		createLoginBeanWithWrongUser();
 		
 		// when
 		loginBean.validateUser();
@@ -131,5 +155,54 @@ public class LoginBeanTest {
 		// then
 		verify(facesContext).addMessage(isNull(String.class), isNotNull(FacesMessage.class));
 	}
+	
+	@Test
+	public void shouldRememberValidUserWhenAskedTo()
+	{
+		// given
+		IUser realUser = createLoginBeanWithValidUser();
+		loginBean.setRememberMe(true);
 
+		// when
+		loginBean.validateUser();
+		
+		// then
+		verify(rememberMeService).rememberMe(realUser);
+	}
+
+	@Test
+	public void shouldNotRememberValidUserWhenNotAskedTo()
+	{
+		// given
+		IUser realUser = createLoginBeanWithValidUser();
+		loginBean.setRememberMe(false);
+
+		// when
+		loginBean.validateUser();
+		
+		// then
+		verify(rememberMeService, never()).rememberMe(realUser);
+	}
+	
+	@Test
+	public void shouldFillBeanAndRememberMeWithRememberedUser()
+	{
+		// given
+		IUser rememberedUser = createValidUser();
+		
+		when
+			(rememberMeService.getRememberedUser()).
+		thenReturn
+			(rememberedUser);
+		
+		createEmptyLoginBean();
+		
+		// when
+		loginBean.init();
+
+		// then
+		assertThat(loginBean.getUser(), is(equalTo(userName)));
+		assertThat(loginBean.getPassword(), is(equalTo(userPassword)));
+		assertThat(loginBean.isRememberMe(), is(equalTo(true)));
+	}
 }
