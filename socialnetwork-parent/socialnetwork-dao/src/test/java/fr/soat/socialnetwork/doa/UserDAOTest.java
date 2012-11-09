@@ -31,7 +31,7 @@ public class UserDAOTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		dao.getEntityManager().getTransaction().rollback();
+//		dao.getEntityManager().getTransaction().rollback();
 	}
 
 	@Test

@@ -3,8 +3,7 @@ package fr.soat.socialnetwork.dao;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import org.apache.myfaces.extensions.cdi.jpa.api.Transactional;
 
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 
@@ -25,7 +24,7 @@ public class UserDAO implements IUserDAO {
 	 * 
 	 * @see fr.soat.socialnetwork.dao.IUserDAO#find(long)
 	 */
-	//@Transactional
+	@Transactional
 	public UserDTO find(long id) {
 		return em.find(UserDTO.class, id);
 	}
@@ -36,16 +35,17 @@ public class UserDAO implements IUserDAO {
 	 * @see
 	 * fr.soat.socialnetwork.dao.IUserDAO#save(fr.soat.socialnetwork.dao.User)
 	 */
-	//@Transactional
+	@Transactional
 	public UserDTO save(UserDTO entity) {
 		em.persist(entity);
 		return em.merge(entity);
 	}
 
 	public UserDTO getByEmail(String email) {
-		Session sesion = (Session) em.getDelegate();
-		return (UserDTO) sesion.createCriteria(UserDTO.class).add(
-				Restrictions.eq("email", email)).uniqueResult();
+//		Session sesion = (Session) em.getDelegate();
+//		return (UserDTO) sesion.createCriteria(UserDTO.class).add(
+//				Restrictions.eq("email", email)).uniqueResult();
+		return new UserDTO();
 	}
 
 	/*
@@ -54,7 +54,7 @@ public class UserDAO implements IUserDAO {
 	 * @see
 	 * fr.soat.socialnetwork.dao.IUserDAO#update(fr.soat.socialnetwork.dao.User)
 	 */
-	//@Transactional
+	@Transactional
 	public UserDTO update(UserDTO entity) {
 		em.persist(entity);
 		return em.merge(entity);
