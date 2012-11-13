@@ -4,12 +4,14 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.google.common.base.Optional;
+
 import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.service.ILoginService;
+import fr.soat.socialnetwork.service.encryption.EncryptionServiceException;
+import fr.soat.socialnetwork.service.login.ILoginService;
 
 @Named("login")
 @RequestScoped
@@ -27,7 +29,7 @@ public class LoginBean {
 	protected LoginBean()
 	{
 	}
-	
+
 	@Inject
 	public LoginBean(
 			ILoginService loginService,
@@ -40,13 +42,13 @@ public class LoginBean {
 		this.context = context;
 		this.userSession = userSession;
 	}
-	
+
 	@PostConstruct
 	public void init()
 	{
 		fillBeanWithRememberedUser();
 	}
-	
+
 	public String getUser() {
 		return username;
 	}
@@ -67,7 +69,7 @@ public class LoginBean {
 	public void setRememberMe(boolean rememberMe) {
 		this.rememberMe = rememberMe;
 	}
-	
+
 	public Boolean validateUser() {
 		IUser user = loginService.getUser(username, password);
 		boolean validUser = user.isValidUser();
@@ -90,7 +92,12 @@ public class LoginBean {
 	private void rememberUserIfNeeded(IUser user) {
 		if (rememberMe)
 		{
-			rememberMeService.rememberMe(user);
+			try {
+				rememberMeService.rememberMe(user);
+			} catch (EncryptionServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -110,18 +117,25 @@ public class LoginBean {
 	public void setUserSession(UserSessionBean userSession) {
 		this.userSession = userSession;
 	}
-	
+
 	private void fillBeanWithRememberedUser()
 	{
-		IUser rememberedUser = rememberMeService.getRememberedUser();
-		if (rememberedUser.isValidUser())
+		Optional<IRememberedUser> rememberedUser;
+		try {
+			rememberedUser = rememberMeService.getRememberedUser();
+		} catch (EncryptionServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			rememberedUser = Optional.absent();
+		}
+		if (rememberedUser.isPresent())
 		{
-			fillBean(rememberedUser);
+			fillBean(rememberedUser.get());
 			setRememberMe(true);
 		}
 	}
 
-	private void fillBean(IUser rememberedUser) {
+	private void fillBean(IRememberedUser rememberedUser) {
 		setUser(rememberedUser.getName());
 		setPassword(rememberedUser.getPassword());
 	}

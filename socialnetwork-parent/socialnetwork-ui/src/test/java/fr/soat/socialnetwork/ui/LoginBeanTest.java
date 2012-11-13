@@ -8,57 +8,59 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.google.common.base.Optional;
+
+import fr.soat.socialnetwork.bo.IUser;
+import fr.soat.socialnetwork.bo.WrongUser;
+import fr.soat.socialnetwork.service.encryption.EncryptionServiceException;
+import fr.soat.socialnetwork.service.login.ILoginService;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 import static org.junit.Assert.assertThat;
 
-import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.bo.WrongUser;
-import fr.soat.socialnetwork.service.ILoginService;
-import fr.soat.socialnetwork.ui.LoginBean;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Matchers.isNull;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginBeanTest {
 
 	@Mock
 	private ILoginService loginService;
-	
+
 	@Mock
 	private IRememberMeService rememberMeService;
-	
+
 	@Mock
 	private UserSessionBean userSession;
-	
+
 	private FacesContext facesContext = ContextMocker.mockFacesContext();
-	
+
 	private static final String userName = "name";
 	private static final String userPassword = "password";
-	
+
 	private LoginBean loginBean;
-	
+
 	private void createEmptyLoginBean() {
 		loginBean = new LoginBean(
-				loginService, 
-				rememberMeService, 
-				facesContext, 
+				loginService,
+				rememberMeService,
+				facesContext,
 				userSession);
 	}
-	
+
 	private void createLoginBean()
 	{
 		createEmptyLoginBean();
 		loginBean.setUser(userName);
 		loginBean.setPassword(userPassword);
 	}
-	
+
 	private void createLoginBeanWithWrongUser() {
 		createWrongUser();
 		createLoginBean();
@@ -78,9 +80,9 @@ public class LoginBeanTest {
 			(loginService.getUser(userName, userPassword)).
 		thenReturn
 			(realUser);
-		
+
 		createLoginBean();
-		
+
 		return realUser;
 	}
 
@@ -95,7 +97,7 @@ public class LoginBeanTest {
 			(realUser.getName()).
 		thenReturn
 			(userName);
-		
+
 		when
 			(realUser.getPassword()).
 		thenReturn
@@ -109,10 +111,10 @@ public class LoginBeanTest {
 	{
 		// given
 		createLoginBeanWithWrongUser();
-		
+
 		// when
 		boolean result = loginBean.validateUser();
-		
+
 		// then
 		assertThat(result, is(equalTo(false)));
 	}
@@ -122,10 +124,10 @@ public class LoginBeanTest {
 	{
 		// given
 		createLoginBeanWithValidUser();
-		
+
 		// when
 		boolean result = loginBean.validateUser();
-		
+
 		// then
 		assertThat(result, is(equalTo(true)));
 	}
@@ -138,26 +140,26 @@ public class LoginBeanTest {
 
 		// when
 		loginBean.validateUser();
-		
+
 		// then
 		verify(userSession).setUser(realUser);
 	}
-	
+
 	@Test
 	public void shouldDisplayErrorMessageForWrongUser()
 	{
 		// given
 		createLoginBeanWithWrongUser();
-		
+
 		// when
 		loginBean.validateUser();
-		
+
 		// then
 		verify(facesContext).addMessage(isNull(String.class), isNotNull(FacesMessage.class));
 	}
-	
+
 	@Test
-	public void shouldRememberValidUserWhenAskedTo()
+	public void shouldRememberValidUserWhenAskedTo() throws EncryptionServiceException
 	{
 		// given
 		IUser realUser = createLoginBeanWithValidUser();
@@ -165,13 +167,13 @@ public class LoginBeanTest {
 
 		// when
 		loginBean.validateUser();
-		
+
 		// then
 		verify(rememberMeService).rememberMe(realUser);
 	}
 
 	@Test
-	public void shouldNotRememberValidUserWhenNotAskedTo()
+	public void shouldNotRememberValidUserWhenNotAskedTo() throws EncryptionServiceException
 	{
 		// given
 		IUser realUser = createLoginBeanWithValidUser();
@@ -179,24 +181,24 @@ public class LoginBeanTest {
 
 		// when
 		loginBean.validateUser();
-		
+
 		// then
 		verify(rememberMeService, never()).rememberMe(realUser);
 	}
-	
+
 	@Test
-	public void shouldFillBeanAndRememberMeWithRememberedUser()
+	public void shouldFillBeanAndRememberMeWithRememberedUser() throws EncryptionServiceException
 	{
 		// given
-		IUser rememberedUser = createValidUser();
-		
+		Optional<IRememberedUser> rememberedUser = Optional.of(createValidRememberdUser());
+
 		when
 			(rememberMeService.getRememberedUser()).
 		thenReturn
 			(rememberedUser);
-		
+
 		createEmptyLoginBean();
-		
+
 		// when
 		loginBean.init();
 
@@ -204,5 +206,9 @@ public class LoginBeanTest {
 		assertThat(loginBean.getUser(), is(equalTo(userName)));
 		assertThat(loginBean.getPassword(), is(equalTo(userPassword)));
 		assertThat(loginBean.isRememberMe(), is(equalTo(true)));
+	}
+
+	private IRememberedUser createValidRememberdUser() {
+		return new RememberedUser(userName, userPassword);
 	}
 }

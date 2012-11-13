@@ -1,4 +1,4 @@
-package fr.soat.socialnetwork.service;
+package fr.soat.socialnetwork.service.login;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
@@ -16,7 +16,7 @@ public class LoginService implements ILoginService {
 	public IUser getUser(String userName, String password) {
 		if (("christophe".equals(userName)) &&
 			("christophe".equals(password)))
-			return new User();
+			return new User(userName, password);
 		else
 			return new WrongUser();
 	}
