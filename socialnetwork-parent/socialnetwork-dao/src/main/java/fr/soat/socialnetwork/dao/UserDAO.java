@@ -1,12 +1,9 @@
 package fr.soat.socialnetwork.dao;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
-
-import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
+import org.apache.myfaces.extensions.cdi.jpa.api.Transactional;
 
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 
@@ -45,9 +42,10 @@ public class UserDAO implements IUserDAO {
 	}
 
 	public UserDTO getByEmail(String email) {
-		Session sesion = (Session) em.getDelegate();
-		return (UserDTO) sesion.createCriteria(UserDTO.class).add(
-				Restrictions.eq("email", email)).uniqueResult();
+//		Session sesion = (Session) em.getDelegate();
+//		return (UserDTO) sesion.createCriteria(UserDTO.class).add(
+//				Restrictions.eq("email", email)).uniqueResult();
+		return new UserDTO();
 	}
 
 	/*

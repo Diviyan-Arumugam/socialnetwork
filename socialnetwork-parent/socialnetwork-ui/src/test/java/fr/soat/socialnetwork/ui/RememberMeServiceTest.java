@@ -62,7 +62,7 @@ public class RememberMeServiceTest {
 	private IUser createUser() {
 		IUser user = mock(IUser.class);
 		when
-			(user.getName()).
+			(user.getEmail()).
 		thenReturn
 			(userName);
 		when

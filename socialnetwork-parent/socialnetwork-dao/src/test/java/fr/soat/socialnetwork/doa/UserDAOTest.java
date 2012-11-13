@@ -1,15 +1,12 @@
 package fr.soat.socialnetwork.doa;
 
+import javax.inject.Inject;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
-import fr.soat.socialnetwork.SoatSocialDAOModule;
 import fr.soat.socialnetwork.dao.UserDAO;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 
@@ -24,9 +21,9 @@ public class UserDAOTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Injector injector = Guice.createInjector(new SoatSocialDAOModule());
-		dao = injector.getInstance(UserDAO.class);
-		dao.getEntityManager().getTransaction().begin();
+//		Injector injector = Guice.createInjector(new SoatSocialDAOModule());
+//		dao = injector.getInstance(UserDAO.class);
+//		dao.getEntityManager().getTransaction().begin();
 	}
 
 	/**
@@ -34,7 +31,7 @@ public class UserDAOTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		dao.getEntityManager().getTransaction().rollback();
+//		dao.getEntityManager().getTransaction().rollback();
 	}
 
 	@Test

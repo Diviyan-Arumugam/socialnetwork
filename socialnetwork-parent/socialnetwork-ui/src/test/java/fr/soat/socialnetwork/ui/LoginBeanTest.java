@@ -94,7 +94,7 @@ public class LoginBeanTest {
 			(true);
 
 		when
-			(realUser.getName()).
+			(realUser.getEmail()).
 		thenReturn
 			(userName);
 
