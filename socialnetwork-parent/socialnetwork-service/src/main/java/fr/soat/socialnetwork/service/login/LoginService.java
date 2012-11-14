@@ -17,14 +17,14 @@ public class LoginService implements ILoginService {
 
 	@Inject UserDAOService userDaoService;
 
-	public IUser getUser(String userName, String password) {
+	public IUser getUser(String login, String password) {
 		IUser user = new WrongUser();
 
-		if (("christophe".equals(userName)) &&
+		if (("christophe".equals(login)) &&
 			("christophe".equals(password)))
 		{
 			user = new User();
-			user.setEmail(userName);
+			user.setEmail(login);
 			user.setPassword(password);
 
 

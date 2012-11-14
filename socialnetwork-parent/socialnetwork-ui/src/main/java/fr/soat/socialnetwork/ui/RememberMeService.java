@@ -40,7 +40,7 @@ public class RememberMeService implements IRememberMeService {
 	@Override
 	public void rememberMe(IUser realUser) throws EncryptionServiceException
 	{
-		setName(realUser.getEmail());
+		setLogin(realUser.getLogin());
 
 		String password = realUser.getPassword();
 		String encryptedPassword = encryptionService.encrypt(password);
@@ -51,9 +51,9 @@ public class RememberMeService implements IRememberMeService {
 	public Optional<IRememberedUser> getRememberedUser() throws EncryptionServiceException {
 		Optional<IRememberedUser> rememberedUser;
 
-		String name = getName();
+		String login = getLogin();
 		String encryptedPassword = getEncryptedPassword();
-		if ((Strings.isNullOrEmpty(name)) ||
+		if ((Strings.isNullOrEmpty(login)) ||
 			(Strings.isNullOrEmpty(encryptedPassword)))
 		{
 			rememberedUser = Optional.absent();
@@ -61,19 +61,19 @@ public class RememberMeService implements IRememberMeService {
 		else
 		{
 			String password = encryptionService.decrypt(encryptedPassword);
-			rememberedUser = Optional.of(createRememberedUser(name, password));
+			rememberedUser = Optional.of(createRememberedUser(login, password));
 		}
 		return rememberedUser;
 	}
 
-	public IRememberedUser createRememberedUser(String name, String password)
+	public IRememberedUser createRememberedUser(String login, String password)
 	{
-		return new RememberedUser(name, password);
+		return new RememberedUser(login, password);
 	}
 
-	private void setName(String name)
+	private void setLogin(String login)
 	{
-		cookieManager.addCookie(NAME_COOKIE_SUFFIX, name);
+		cookieManager.addCookie(NAME_COOKIE_SUFFIX, login);
 	}
 
 	private void setEncryptedPassword(String encryptedPassword)
@@ -82,7 +82,7 @@ public class RememberMeService implements IRememberMeService {
 		cookieManager.addCookie(PASS_COOKIE_SUFFIX, new String(encoded));
 	}
 
-	private String getName()
+	private String getLogin()
 	{
 		return cookieManager.getCookie(NAME_COOKIE_SUFFIX);
 	}

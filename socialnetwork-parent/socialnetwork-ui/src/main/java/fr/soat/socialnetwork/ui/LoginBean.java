@@ -22,7 +22,7 @@ public class LoginBean {
    	private UserSessionBean userSession;
    	private IRememberMeService rememberMeService;
 
-	private String username;
+	private String login;
 	private String password;
 	private boolean rememberMe;
 
@@ -49,11 +49,11 @@ public class LoginBean {
 		fillBeanWithRememberedUser();
 	}
 
-	public String getUser() {
-		return username;
+	public String getLogin() {
+		return login;
 	}
-	public void setUser(String username) {
-		this.username = username;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 	public String getPassword() {
 		return password;
@@ -71,7 +71,7 @@ public class LoginBean {
 	}
 
 	public Boolean validateUser() {
-		IUser user = loginService.getUser(username, password);
+		IUser user = loginService.getUser(login, password);
 		boolean validUser = user.isValidUser();
 		if (validUser)
 		{
@@ -136,7 +136,7 @@ public class LoginBean {
 	}
 
 	private void fillBean(IRememberedUser rememberedUser) {
-		setUser(rememberedUser.getName());
+		setLogin(rememberedUser.getLogin());
 		setPassword(rememberedUser.getPassword());
 	}
 }

@@ -32,7 +32,7 @@ public class RememberMeServiceTest {
 
 	private IRememberMeService rememberMeService;
 
-	private static final String userName = "name";
+	private static final String userLogin = "login";
 	private static final String userPassword = "password";
 	private static final String encryptedPassword = "encryptedPassword";
 
@@ -56,15 +56,15 @@ public class RememberMeServiceTest {
 
 		// then
 		verify(cookieManager).addCookie(RememberMeService.NAME_COOKIE_SUFFIX,
-				userName);
+				userLogin);
 	}
 
 	private IUser createUser() {
 		IUser user = mock(IUser.class);
 		when
-			(user.getEmail()).
+			(user.getLogin()).
 		thenReturn
-			(userName);
+			(userLogin);
 		when
 			(user.getPassword()).
 		thenReturn
@@ -90,14 +90,14 @@ public class RememberMeServiceTest {
 		Optional<IRememberedUser> rememberedUser = rememberMeService.getRememberedUser();
 
 		// then
-		assertThat(rememberedUser.get().getName(), is(equalTo(userName)));
+		assertThat(rememberedUser.get().getLogin(), is(equalTo(userLogin)));
 	}
 
 	private void stubCookieManager() {
 		when
 			(cookieManager.getCookie(RememberMeService.NAME_COOKIE_SUFFIX)).
 		thenReturn
-			(userName);
+			(userLogin);
 		when
 			(cookieManager.getCookie(RememberMeService.PASS_COOKIE_SUFFIX)).
 		thenReturn

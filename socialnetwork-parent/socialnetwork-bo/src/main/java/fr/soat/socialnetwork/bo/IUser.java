@@ -2,22 +2,20 @@ package fr.soat.socialnetwork.bo;
 
 public interface IUser {
 
-	public String getFirstName() ;
+	String getLogin();
+	void setLogin(String login);
 
-	public void setFirstName(String firstName) ;
+	String getFirstName() ;
+	void setFirstName(String firstName) ;
 
-	public String getLastName() ;
+	String getLastName() ;
+	void setLastName(String lastName) ;
 
-	public void setLastName(String lastName) ;
+	String getEmail() ;
+	void setEmail(String email) ;
 
-	public String getEmail() ;
-
-	public void setEmail(String email) ;
-
-	public String getPassword() ;
-
-	public void setPassword(String password) ;
+	String getPassword() ;
+	void setPassword(String password) ;
 
 	boolean isValidUser();
-
 }

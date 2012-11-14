@@ -33,4 +33,11 @@ public class WrongUser implements IUser {
 
 	public void setPassword(String password) {
 	}
+
+	public String getLogin() {
+		return null;
+	}
+
+	public void setLogin(String login) {
+	}
 }

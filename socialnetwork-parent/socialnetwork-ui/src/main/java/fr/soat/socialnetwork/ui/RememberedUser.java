@@ -2,17 +2,17 @@ package fr.soat.socialnetwork.ui;
 
 public class RememberedUser implements IRememberedUser {
 
-	private final String name;
+	private final String login;
 	private final String password;
 
-	public RememberedUser(String name, String password) {
-		this.name = name;
+	public RememberedUser(String login, String password) {
+		this.login = login;
 		this.password = password;
 	}
 
 	@Override
-	public String getName() {
-		return name;
+	public String getLogin() {
+		return login;
 	}
 
 	@Override

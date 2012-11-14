@@ -2,6 +2,7 @@ package fr.soat.socialnetwork.bo;
 
 public class User implements IUser {
 
+	private String login;
 	private String firstName;
     private String lastName;
 	private String email;
@@ -41,5 +42,13 @@ public class User implements IUser {
 
 	public boolean isValidUser() {
 		return true;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 }

@@ -41,7 +41,7 @@ public class LoginBeanTest {
 
 	private FacesContext facesContext = ContextMocker.mockFacesContext();
 
-	private static final String userName = "name";
+	private static final String userLogin = "login";
 	private static final String userPassword = "password";
 
 	private LoginBean loginBean;
@@ -57,7 +57,7 @@ public class LoginBeanTest {
 	private void createLoginBean()
 	{
 		createEmptyLoginBean();
-		loginBean.setUser(userName);
+		loginBean.setLogin(userLogin);
 		loginBean.setPassword(userPassword);
 	}
 
@@ -69,7 +69,7 @@ public class LoginBeanTest {
 	private void createWrongUser() {
 		IUser wrongUser = new WrongUser();
 		when
-			(loginService.getUser(userName, userPassword)).
+			(loginService.getUser(userLogin, userPassword)).
 		thenReturn
 			(wrongUser);
 	}
@@ -77,7 +77,7 @@ public class LoginBeanTest {
 	private IUser createLoginBeanWithValidUser() {
 		IUser realUser = createValidUser();
 		when
-			(loginService.getUser(userName, userPassword)).
+			(loginService.getUser(userLogin, userPassword)).
 		thenReturn
 			(realUser);
 
@@ -94,9 +94,9 @@ public class LoginBeanTest {
 			(true);
 
 		when
-			(realUser.getEmail()).
+			(realUser.getLogin()).
 		thenReturn
-			(userName);
+			(userLogin);
 
 		when
 			(realUser.getPassword()).
@@ -203,12 +203,12 @@ public class LoginBeanTest {
 		loginBean.init();
 
 		// then
-		assertThat(loginBean.getUser(), is(equalTo(userName)));
+		assertThat(loginBean.getLogin(), is(equalTo(userLogin)));
 		assertThat(loginBean.getPassword(), is(equalTo(userPassword)));
 		assertThat(loginBean.isRememberMe(), is(equalTo(true)));
 	}
 
 	private IRememberedUser createValidRememberdUser() {
-		return new RememberedUser(userName, userPassword);
+		return new RememberedUser(userLogin, userPassword);
 	}
 }
