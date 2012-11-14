@@ -9,6 +9,9 @@
 
 <h:body>
     <h:outputLabel value="Bienvenue #{login.login}" />
+    <h:form>
+        <h:commandLink id="logout" action="#{login.logout}" value="Deconnection" />
+    </h:form>
 </h:body>
 
 </html>

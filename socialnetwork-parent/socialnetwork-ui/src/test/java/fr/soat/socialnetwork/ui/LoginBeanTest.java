@@ -1,7 +1,9 @@
 package fr.soat.socialnetwork.ui;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -248,5 +250,33 @@ public class LoginBeanTest {
 		ArgumentCaptor<IUser> rememberedUser = ArgumentCaptor.forClass(IUser.class);
 		verify(rememberMeService).forgetMe(rememberedUser.capture());
 		assertThat(rememberedUser.getValue().getLogin(), is(equalTo(userLogin)));
+	}
+
+	@Test
+	public void shouldInvalidateSessionWhenLoggingOut() throws EncryptionServiceException
+	{
+		// given
+		ExternalContext externalContext = mock(ExternalContext.class);
+		HttpSession session = mock(HttpSession.class);
+		when
+			(externalContext.getSession(false)).
+		thenReturn
+			(session);
+		when
+			(facesContext.getExternalContext()).
+		thenReturn
+			(externalContext);
+
+		loginBeanDoesntHaveARememberedUser();
+		IUser realUser = createLoginBeanWithValidUser();
+		loginBean.setRememberMe(false);
+		loginBean.validateUser();
+
+		// when
+		loginBean.logout();
+
+		// then
+		verify(session).invalidate();
+
 	}
 }

@@ -3,9 +3,11 @@ package fr.soat.socialnetwork.ui;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import com.google.common.base.Optional;
 
@@ -150,5 +152,12 @@ public class LoginBean {
 	private void fillBean(IRememberedUser rememberedUser) {
 		setLogin(rememberedUser.getLogin());
 		setPassword(rememberedUser.getPassword());
+	}
+
+	public String logout() {
+		ExternalContext externalContext = context.getExternalContext();
+		HttpSession session = (HttpSession) externalContext.getSession(false);
+		session.invalidate();
+		return "loggedout";
 	}
 }
