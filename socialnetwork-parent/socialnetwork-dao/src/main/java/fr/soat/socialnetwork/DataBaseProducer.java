@@ -7,24 +7,20 @@ import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public class DataBaseProducer
-{
-    @PersistenceContext(unitName="default")
-    private EntityManager entityManager;
+public class DataBaseProducer {
+	@PersistenceContext(unitName = "soatsocial")
+	private EntityManager entityManager;
 
-    @Produces
-    @Default
-    @RequestScoped
-    public EntityManager createDefaultEntityManager()
-    {
-        return this.entityManager;
-    }
+	@Produces
+	@Default
+	@RequestScoped
+	public EntityManager createDefaultEntityManager() {
+		return this.entityManager;
+	}
 
-    public void dispose(@Disposes @Default EntityManager entityManager)
-    {
-        if(entityManager.isOpen())
-        {
-            entityManager.close();
-        }
-    }
+	public void dispose(@Disposes @Default EntityManager entityManager) {
+		if (entityManager.isOpen()) {
+			entityManager.close();
+		}
+	}
 }

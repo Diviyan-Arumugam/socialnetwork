@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.soat.socialnetwork.dao.UserDAO;
+import fr.soat.socialnetwork.dao.IUserDAO;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 
 public class UserDAOTest {
@@ -17,7 +17,7 @@ public class UserDAOTest {
 	private final String email = "guillaume.prehu@soat.fr";
 
 	@Inject
-	UserDAO dao;
+	IUserDAO dao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -35,8 +35,8 @@ public class UserDAOTest {
 	}
 
 	@Test
-	public void testGetEntityManager() {
-		Assert.assertNotNull(dao.getEntityManager());
+	public void testDAO() {
+		Assert.assertNotNull(dao);
 	}
 	
 	@Test

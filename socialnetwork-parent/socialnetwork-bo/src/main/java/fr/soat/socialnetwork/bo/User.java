@@ -4,7 +4,7 @@ public class User implements IUser {
 
 	private String login;
 	private String firstName;
-    private String lastName;
+	private String lastName;
 	private String email;
 	private String password;
 
