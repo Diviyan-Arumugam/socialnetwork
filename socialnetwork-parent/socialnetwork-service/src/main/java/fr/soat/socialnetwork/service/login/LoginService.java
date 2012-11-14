@@ -24,7 +24,7 @@ public class LoginService implements ILoginService {
 			("christophe".equals(password)))
 		{
 			user = new User();
-			user.setEmail(login);
+			user.setLogin(login);
 			user.setPassword(password);
 
 

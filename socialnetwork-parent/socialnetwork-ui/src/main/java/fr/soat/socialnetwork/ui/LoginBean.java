@@ -22,6 +22,8 @@ public class LoginBean {
    	private UserSessionBean userSession;
    	private IRememberMeService rememberMeService;
 
+	private Optional<IRememberedUser> rememberedUser;
+
 	private String login;
 	private String password;
 	private boolean rememberMe;
@@ -86,18 +88,29 @@ public class LoginBean {
 
 	private void validateKnownUser(IUser user) {
 		putUserInSession(user);
-		rememberUserIfNeeded(user);
-	}
-
-	private void rememberUserIfNeeded(IUser user) {
 		if (rememberMe)
 		{
-			try {
-				rememberMeService.rememberMe(user);
-			} catch (EncryptionServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			rememberUser(user);
+		}
+		else
+		{
+			forgetUserIfNeeded(user);
+		}
+	}
+
+	private void forgetUserIfNeeded(IUser user) {
+		if (rememberedUser.isPresent())
+		{
+			rememberMeService.forgetMe(user);
+		}
+	}
+
+	private void rememberUser(IUser user) {
+		try {
+			rememberMeService.rememberMe(user);
+		} catch (EncryptionServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -120,7 +133,6 @@ public class LoginBean {
 
 	private void fillBeanWithRememberedUser()
 	{
-		Optional<IRememberedUser> rememberedUser;
 		try {
 			rememberedUser = rememberMeService.getRememberedUser();
 		} catch (EncryptionServiceException e) {

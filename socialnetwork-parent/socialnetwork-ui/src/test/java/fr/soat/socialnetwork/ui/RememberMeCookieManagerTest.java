@@ -5,9 +5,11 @@ import java.util.HashMap;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -28,6 +30,9 @@ public class RememberMeCookieManagerTest {
 
 	@Mock
 	ExternalContext externalContextStub;
+
+	@Mock
+	HttpServletResponse responseStub;
 
 	private RememberMeCookieManager rememberMeCookieManager;
 
@@ -53,6 +58,11 @@ public class RememberMeCookieManagerTest {
 			(externalContextStub.getRequestCookieMap()).
 		thenReturn
 			(requestCookieMap);
+
+		when
+			(externalContextStub.getResponse()).
+		thenReturn
+			(responseStub);
 	}
 
 	@Test
@@ -66,7 +76,7 @@ public class RememberMeCookieManagerTest {
 
 
 		// when
-		String value = rememberMeCookieManager.getCookie(COOKIE_NAME);
+		String value = rememberMeCookieManager.getCookieValue(COOKIE_NAME);
 
 		// then
 		assertThat(value, is(equalTo(COOKIE_VALUE)));
@@ -93,9 +103,29 @@ public class RememberMeCookieManagerTest {
 		addCookieMapToExternalContext();
 
 		// when
-		String value = rememberMeCookieManager.getCookie(COOKIE_NAME);
+		String value = rememberMeCookieManager.getCookieValue(COOKIE_NAME);
 
 		// then
 		assertThat(value, isEmptyOrNullString() );
+	}
+
+	@Test
+	public void shouldSetMaxAgeToZeroToRemoveCookie()
+	{
+		// given
+		createRememberMeCookieManager();
+		addCookieMapToExternalContext();
+
+		Cookie cookie = new Cookie(COOKIE_NAME, COOKIE_VALUE);
+		requestCookieMap.put(COOKIE_NAME, cookie);
+
+		// when
+		rememberMeCookieManager.removeCookie(COOKIE_NAME);
+
+		// then
+		ArgumentCaptor<Cookie> argument = ArgumentCaptor.forClass(Cookie.class);
+		verify(responseStub).addCookie(argument.capture());
+		Cookie value = argument.getValue();
+		assertThat(value.getMaxAge(), is(equalTo(0)));
 	}
 }

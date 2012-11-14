@@ -22,8 +22,8 @@ public class RememberMeService implements IRememberMeService {
 	private IRememberMeCookieManager cookieManager;
 	private IEncryptionService encryptionService;
 
-	protected static final String NAME_COOKIE_SUFFIX = "UserName";
-	protected static final String PASS_COOKIE_SUFFIX = "Password";
+	protected static final String NAME_COOKIE_PREFIX = "SoatSocial_UserName";
+	protected static final String PASS_COOKIE_PREFIX = "SoatSocial_Password";
 
 	protected RememberMeService()
 	{
@@ -73,24 +73,24 @@ public class RememberMeService implements IRememberMeService {
 
 	private void setLogin(String login)
 	{
-		cookieManager.addCookie(NAME_COOKIE_SUFFIX, login);
+		cookieManager.addCookie(NAME_COOKIE_PREFIX, login);
 	}
 
 	private void setEncryptedPassword(String encryptedPassword)
 	{
 		byte[] encoded = Base64.encodeBase64(encryptedPassword.getBytes());
-		cookieManager.addCookie(PASS_COOKIE_SUFFIX, new String(encoded));
+		cookieManager.addCookie(PASS_COOKIE_PREFIX, new String(encoded));
 	}
 
 	private String getLogin()
 	{
-		return cookieManager.getCookie(NAME_COOKIE_SUFFIX);
+		return cookieManager.getCookieValue(NAME_COOKIE_PREFIX);
 	}
 
 	private String getEncryptedPassword()
 	{
 		String encryptedPassword;
-		String base64encrypted = cookieManager.getCookie(PASS_COOKIE_SUFFIX);
+		String base64encrypted = cookieManager.getCookieValue(PASS_COOKIE_PREFIX);
 		if (Strings.isNullOrEmpty(base64encrypted))
 		{
 			encryptedPassword = new String();
@@ -102,5 +102,11 @@ public class RememberMeService implements IRememberMeService {
 		}
 
 		return encryptedPassword;
+	}
+
+	@Override
+	public void forgetMe(IUser realUser) {
+		cookieManager.removeCookie(NAME_COOKIE_PREFIX);
+		cookieManager.removeCookie(PASS_COOKIE_PREFIX);
 	}
 }

@@ -55,7 +55,7 @@ public class RememberMeServiceTest {
 		rememberMeService.rememberMe(user);
 
 		// then
-		verify(cookieManager).addCookie(RememberMeService.NAME_COOKIE_SUFFIX,
+		verify(cookieManager).addCookie(RememberMeService.NAME_COOKIE_PREFIX,
 				userLogin);
 	}
 
@@ -95,11 +95,11 @@ public class RememberMeServiceTest {
 
 	private void stubCookieManager() {
 		when
-			(cookieManager.getCookie(RememberMeService.NAME_COOKIE_SUFFIX)).
+			(cookieManager.getCookieValue(RememberMeService.NAME_COOKIE_PREFIX)).
 		thenReturn
 			(userLogin);
 		when
-			(cookieManager.getCookie(RememberMeService.PASS_COOKIE_SUFFIX)).
+			(cookieManager.getCookieValue(RememberMeService.PASS_COOKIE_PREFIX)).
 		thenReturn
 			(new String(Base64.encodeBase64(encryptedPassword.getBytes())));
 	}
@@ -130,7 +130,7 @@ public class RememberMeServiceTest {
 
 		// then
 		String encodedBase64Password = new String(Base64.encodeBase64(encryptedPassword.getBytes()));
-		verify(cookieManager).addCookie(RememberMeService.PASS_COOKIE_SUFFIX,
+		verify(cookieManager).addCookie(RememberMeService.PASS_COOKIE_PREFIX,
 				encodedBase64Password);
 	}
 
@@ -183,7 +183,6 @@ public class RememberMeServiceTest {
 		// given
 		createService();
 		stubDependencies();
-
 		stubCookieManager();
 
 		// when
@@ -191,5 +190,21 @@ public class RememberMeServiceTest {
 
 		// then
 		verify(encryptionService).decrypt(encryptedPassword);
+	}
+
+	@Test
+	public void shouldRemoveAllCookies()
+	{
+		// given
+		createService();
+		stubCookieManager();
+		IUser user = createUser();
+
+		// when
+		rememberMeService.forgetMe(user);
+
+		// then
+		verify(cookieManager).removeCookie(RememberMeService.NAME_COOKIE_PREFIX);
+		verify(cookieManager).removeCookie(RememberMeService.PASS_COOKIE_PREFIX);
 	}
 }

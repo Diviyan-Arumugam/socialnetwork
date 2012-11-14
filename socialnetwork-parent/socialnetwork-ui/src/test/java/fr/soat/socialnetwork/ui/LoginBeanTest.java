@@ -5,6 +5,7 @@ import javax.faces.context.FacesContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -52,6 +53,7 @@ public class LoginBeanTest {
 				rememberMeService,
 				facesContext,
 				userSession);
+		loginBean.init();
 	}
 
 	private void createLoginBean()
@@ -107,9 +109,10 @@ public class LoginBeanTest {
 	}
 
 	@Test
-	public void shouldNotValidateWrongUser()
+	public void shouldNotValidateWrongUser() throws EncryptionServiceException
 	{
 		// given
+		loginBeanDoesntHaveARememberedUser();
 		createLoginBeanWithWrongUser();
 
 		// when
@@ -120,9 +123,10 @@ public class LoginBeanTest {
 	}
 
 	@Test
-	public void shouldValidateRealUser()
+	public void shouldValidateRealUser() throws EncryptionServiceException
 	{
 		// given
+		loginBeanDoesntHaveARememberedUser();
 		createLoginBeanWithValidUser();
 
 		// when
@@ -133,9 +137,10 @@ public class LoginBeanTest {
 	}
 
 	@Test
-	public void shouldPutValidUserInSession()
+	public void shouldPutValidUserInSession() throws EncryptionServiceException
 	{
 		// given
+		loginBeanDoesntHaveARememberedUser();
 		IUser realUser = createLoginBeanWithValidUser();
 
 		// when
@@ -146,9 +151,10 @@ public class LoginBeanTest {
 	}
 
 	@Test
-	public void shouldDisplayErrorMessageForWrongUser()
+	public void shouldDisplayErrorMessageForWrongUser() throws EncryptionServiceException
 	{
 		// given
+		loginBeanDoesntHaveARememberedUser();
 		createLoginBeanWithWrongUser();
 
 		// when
@@ -162,6 +168,7 @@ public class LoginBeanTest {
 	public void shouldRememberValidUserWhenAskedTo() throws EncryptionServiceException
 	{
 		// given
+		loginBeanDoesntHaveARememberedUser();
 		IUser realUser = createLoginBeanWithValidUser();
 		loginBean.setRememberMe(true);
 
@@ -176,6 +183,7 @@ public class LoginBeanTest {
 	public void shouldNotRememberValidUserWhenNotAskedTo() throws EncryptionServiceException
 	{
 		// given
+		loginBeanDoesntHaveARememberedUser();
 		IUser realUser = createLoginBeanWithValidUser();
 		loginBean.setRememberMe(false);
 
@@ -190,13 +198,7 @@ public class LoginBeanTest {
 	public void shouldFillBeanAndRememberMeWithRememberedUser() throws EncryptionServiceException
 	{
 		// given
-		Optional<IRememberedUser> rememberedUser = Optional.of(createValidRememberdUser());
-
-		when
-			(rememberMeService.getRememberedUser()).
-		thenReturn
-			(rememberedUser);
-
+		loginBeanHasARememberedUser();
 		createEmptyLoginBean();
 
 		// when
@@ -208,7 +210,43 @@ public class LoginBeanTest {
 		assertThat(loginBean.isRememberMe(), is(equalTo(true)));
 	}
 
+	private void loginBeanHasARememberedUser() throws EncryptionServiceException {
+		Optional<IRememberedUser> rememberedUser = Optional.of(createValidRememberdUser());
+
+		when
+			(rememberMeService.getRememberedUser()).
+		thenReturn
+			(rememberedUser);
+	}
+
+	private void loginBeanDoesntHaveARememberedUser() throws EncryptionServiceException
+	{
+		Optional<IRememberedUser> rememberedUser = Optional.absent();
+
+		when
+			(rememberMeService.getRememberedUser()).
+		thenReturn
+			(rememberedUser);
+	}
+
 	private IRememberedUser createValidRememberdUser() {
 		return new RememberedUser(userLogin, userPassword);
+	}
+
+	@Test
+	public void shouldRemoveAnyPreviousRememberedUser() throws EncryptionServiceException
+	{
+		// given
+		loginBeanHasARememberedUser();
+		createLoginBeanWithValidUser();
+		loginBean.setRememberMe(false);
+
+		// when
+		loginBean.validateUser();
+
+		// then
+		ArgumentCaptor<IUser> rememberedUser = ArgumentCaptor.forClass(IUser.class);
+		verify(rememberMeService).forgetMe(rememberedUser.capture());
+		assertThat(rememberedUser.getValue().getLogin(), is(equalTo(userLogin)));
 	}
 }
