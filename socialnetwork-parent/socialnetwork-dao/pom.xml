@@ -21,6 +21,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>socialnetwork-bo</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
@@ -34,25 +39,24 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.21</version>
 		</dependency>
+		<!-- <dependency> <groupId>org.apache.myfaces.extensions.cdi.modules</groupId> 
+			<artifactId>myfaces-extcdi-jpa1-module-api</artifactId> <version>${codi.version}</version> 
+			</dependency> <dependency> <groupId>org.apache.myfaces.extensions.cdi.modules</groupId> 
+			<artifactId>myfaces-extcdi-jpa1-module-impl</artifactId> <version>${codi.version}</version> 
+			</dependency> <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-core</artifactId> 
+			<version>4.1.7.Final</version> </dependency> <dependency> <groupId>org.hibernate.javax.persistence</groupId> 
+			<artifactId>hibernate-jpa-2.0-api</artifactId> <version>1.0.1.Final</version> 
+			</dependency> -->
 		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>0.5.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.myfaces.extensions.cdi.modules</groupId>
-			<artifactId>myfaces-extcdi-jpa1-module-api</artifactId>
-			<version>${codi.version}</version>
-        </dependency>
-		<dependency>
-			<groupId>org.apache.myfaces.extensions.cdi.modules</groupId>
-			<artifactId>myfaces-extcdi-jpa1-module-impl</artifactId>
-			<version>${codi.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.5.3-Final</version>
+			<!-- <exclusions>
+				<exclusion>
+					<groupId>org.hibernate.javax.persistence</groupId>
+					<artifactId>hibernate-jpa-2.0-api</artifactId>
+				</exclusion>
+			</exclusions> -->
 		</dependency>
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
