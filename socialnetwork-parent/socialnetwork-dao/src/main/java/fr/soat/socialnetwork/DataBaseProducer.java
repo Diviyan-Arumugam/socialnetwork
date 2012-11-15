@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 
 public class DataBaseProducer
 {
-    @PersistenceContext(unitName="default")
+    @PersistenceContext(unitName="soatsocial")
     private EntityManager entityManager;
 
     @Produces
