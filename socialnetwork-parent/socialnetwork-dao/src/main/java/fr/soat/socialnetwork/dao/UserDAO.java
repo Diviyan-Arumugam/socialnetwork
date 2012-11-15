@@ -1,15 +1,16 @@
 package fr.soat.socialnetwork.dao;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.apache.myfaces.extensions.cdi.jpa.api.Transactional;
 
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 
 public class UserDAO implements IUserDAO {
-	@Inject
-	EntityManager em;
+
+	@PersistenceContext(unitName = "soatsocial")
+    private EntityManager em;
 
 	public EntityManager getEntityManager() {
 		return em;
@@ -21,7 +22,7 @@ public class UserDAO implements IUserDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.soat.socialnetwork.dao.IUserDAO#find(long)
 	 */
 	@Transactional
@@ -31,7 +32,7 @@ public class UserDAO implements IUserDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fr.soat.socialnetwork.dao.IUserDAO#save(fr.soat.socialnetwork.dao.User)
 	 */
@@ -50,7 +51,7 @@ public class UserDAO implements IUserDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fr.soat.socialnetwork.dao.IUserDAO#update(fr.soat.socialnetwork.dao.User)
 	 */
