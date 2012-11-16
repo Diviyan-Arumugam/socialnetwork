@@ -172,7 +172,7 @@
             <groupId>org.apache.openwebbeans</groupId>
             <artifactId>openwebbeans-resource</artifactId>
             <version>${openwebbeans.version}</version>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
         
         <dependency>
