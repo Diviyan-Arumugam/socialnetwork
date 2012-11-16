@@ -1,10 +1,14 @@
 package fr.soat.socialnetwork.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.myfaces.extensions.cdi.jpa.api.Transactional;
 
+import fr.soat.socialnetwork.bo.User;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 
 public class UserDAO implements IUserDAO {
@@ -60,9 +64,16 @@ public class UserDAO implements IUserDAO {
 	 * @see
 	 * fr.soat.socialnetwork.dao.IUserDAO#update(fr.soat.socialnetwork.dao.User)
 	 */
+	@Override
 	@Transactional
 	public UserDTO update(UserDTO entity) {
 		em.persist(entity);
 		return em.merge(entity);
+	}
+
+	@Override
+	public List<User> findAll() {
+		Query query = em.createQuery("SELECT e FROM user e");
+		return query.getResultList();
 	}
 }

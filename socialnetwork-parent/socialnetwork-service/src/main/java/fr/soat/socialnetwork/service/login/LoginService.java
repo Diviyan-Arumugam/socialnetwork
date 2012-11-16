@@ -15,18 +15,16 @@ import fr.soat.socialnetwork.dao.mapper.UserDAOService;
 @Default
 public class LoginService implements ILoginService {
 
-	@Inject UserDAOService userDaoService;
+	@Inject
+	UserDAOService userDaoService;
 
 	public IUser getUser(String login, String password) {
 		IUser user = new WrongUser();
 
-		if (("christophe".equals(login)) &&
-			("christophe".equals(password)))
-		{
+		if (("christophe".equals(login)) && ("christophe".equals(password))) {
 			user = new User();
 			user.setLogin(login);
 			user.setPassword(password);
-
 
 		}
 		return user;
