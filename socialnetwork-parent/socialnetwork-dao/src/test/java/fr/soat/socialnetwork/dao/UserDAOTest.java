@@ -18,7 +18,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
-public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.AbstractCdiAwareTest {
+public class UserDAOTest extends
+		org.apache.myfaces.extensions.cdi.test.junit4.AbstractCdiAwareTest {
 
 	private final String firstName = "firstName";
 	private final String lastName = "lastName";
@@ -29,7 +30,7 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 
 	@Before
 	public void setUp() throws Exception {
-//		dao.getEntityManager().getTransaction().begin();
+		// dao.getEntityManager().getTransaction().begin();
 	}
 
 	/**
@@ -37,7 +38,7 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 	 */
 	@After
 	public void tearDown() throws Exception {
-//		dao.getEntityManager().getTransaction().rollback();
+		// dao.getEntityManager().getTransaction().rollback();
 	}
 
 	@Test
@@ -45,11 +46,11 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 		assertThat(dao.getEntityManager(), is(not(nullValue())));
 	}
 
-//	@Test
-//	public void testInsert() {
-//		UserDTO user = createUser();
-//		Assert.assertNotNull(user.getId());
-//	}
+	// @Test
+	// public void testInsert() {
+	// UserDTO user = createUser();
+	// Assert.assertNotNull(user.getId());
+	// }
 
 	private UserDTO createUser() {
 		UserDTO user = new UserDTO(firstName, lastName, email);
@@ -65,16 +66,16 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 		Assert.assertEquals(user, userStored);
 	}
 
-//	@Test
-//	public void testUpdate() {
-//		UserDTO user = createUser();
-//		UserDTO userStored = dao.save(user);
-//		Assert.assertNotNull(userStored);
-//		Assert.assertNotNull(userStored.getId());
-//		userStored.setFirstName("user2");
-//		user = dao.update(userStored);
-//		Assert.assertEquals(userStored, user);
-//	}
+	// @Test
+	// public void testUpdate() {
+	// UserDTO user = createUser();
+	// UserDTO userStored = dao.save(user);
+	// Assert.assertNotNull(userStored);
+	// Assert.assertNotNull(userStored.getId());
+	// userStored.setFirstName("user2");
+	// user = dao.update(userStored);
+	// Assert.assertEquals(userStored, user);
+	// }
 
 	// @Test
 	// public void testDelete() {
@@ -88,7 +89,6 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 	// }
 	//
 	//
-
 
 	// @Test
 	// public void testFindAll() {
