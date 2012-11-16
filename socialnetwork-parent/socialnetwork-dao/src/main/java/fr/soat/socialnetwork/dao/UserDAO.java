@@ -25,6 +25,7 @@ public class UserDAO implements IUserDAO {
 	 *
 	 * @see fr.soat.socialnetwork.dao.IUserDAO#find(long)
 	 */
+	@Override
 	@Transactional
 	public UserDTO find(long id) {
 		return em.find(UserDTO.class, id);
@@ -36,12 +37,16 @@ public class UserDAO implements IUserDAO {
 	 * @see
 	 * fr.soat.socialnetwork.dao.IUserDAO#save(fr.soat.socialnetwork.dao.User)
 	 */
+	@Override
 	@Transactional
 	public UserDTO save(UserDTO entity) {
 		em.persist(entity);
+		//em.getTransaction().commit();
+		//return entity;
 		return em.merge(entity);
 	}
 
+	@Override
 	public UserDTO getByEmail(String email) {
 //		Session sesion = (Session) em.getDelegate();
 //		return (UserDTO) sesion.createCriteria(UserDTO.class).add(

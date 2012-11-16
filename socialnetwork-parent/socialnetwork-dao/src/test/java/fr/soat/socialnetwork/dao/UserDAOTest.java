@@ -29,7 +29,7 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 
 	@Before
 	public void setUp() throws Exception {
-//		dao.getEntityManager().getTransaction().begin();
+		//dao.getEntityManager().getTransaction().begin();
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 	 */
 	@After
 	public void tearDown() throws Exception {
-//		dao.getEntityManager().getTransaction().rollback();
+		//dao.getEntityManager().getTransaction().rollback();
 	}
 
 	@Test
@@ -47,7 +47,9 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 
 	@Test
 	public void testInsert() {
+		dao.getEntityManager().getTransaction().begin();
 		UserDTO user = createUser();
+		dao.getEntityManager().getTransaction().commit();
 		Assert.assertNotNull(user.getId());
 	}
 

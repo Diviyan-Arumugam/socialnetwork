@@ -18,6 +18,7 @@
         <openjpa.version>2.2.1</openjpa.version>
         <mysql.version>5.1.21</mysql.version>
         <openwebbeans.version>1.1.4</openwebbeans.version>
+        <hsqldb.version>2.2.9</hsqldb.version>
     </properties>
 	<dependencies>
 		<dependency>
@@ -135,6 +136,14 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
+        </dependency>
+        
+        <!-- HSQLDB Database Connector (tests) -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
+            <scope>test</scope>
         </dependency>		
 		
         <!-- CODI test modules -->
