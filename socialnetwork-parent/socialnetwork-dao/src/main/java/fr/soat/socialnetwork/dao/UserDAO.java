@@ -1,7 +1,10 @@
 package fr.soat.socialnetwork.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.myfaces.extensions.cdi.jpa.api.Transactional;
 
@@ -10,7 +13,7 @@ import fr.soat.socialnetwork.dao.entity.UserDTO;
 public class UserDAO implements IUserDAO {
 
 	@PersistenceContext(unitName = "soatsocial")
-    private EntityManager em;
+	private EntityManager em;
 
 	public EntityManager getEntityManager() {
 		return em;
@@ -22,7 +25,7 @@ public class UserDAO implements IUserDAO {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see fr.soat.socialnetwork.dao.IUserDAO#find(long)
 	 */
 	@Transactional
@@ -32,7 +35,7 @@ public class UserDAO implements IUserDAO {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * fr.soat.socialnetwork.dao.IUserDAO#save(fr.soat.socialnetwork.dao.User)
 	 */
@@ -43,15 +46,14 @@ public class UserDAO implements IUserDAO {
 	}
 
 	public UserDTO getByEmail(String email) {
-//		Session sesion = (Session) em.getDelegate();
-//		return (UserDTO) sesion.createCriteria(UserDTO.class).add(
-//				Restrictions.eq("email", email)).uniqueResult();
-		return new UserDTO();
+		Query q = em.createQuery("SELECT u FROM user u");
+		List<UserDTO> results = (List<UserDTO>) q.getResultList();
+		return results.get(0);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * fr.soat.socialnetwork.dao.IUserDAO#update(fr.soat.socialnetwork.dao.User)
 	 */
