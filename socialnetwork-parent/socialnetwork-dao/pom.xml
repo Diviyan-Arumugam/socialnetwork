@@ -13,11 +13,8 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernate.version>4.1.8.Final</hibernate.version>
-        <codi.version>1.0.5</codi.version>
         <openjpa.version>2.2.1</openjpa.version>
         <mysql.version>5.1.21</mysql.version>
-        <openwebbeans.version>1.1.4</openwebbeans.version>
         <hsqldb.version>2.2.9</hsqldb.version>
     </properties>
 	<dependencies>
@@ -167,14 +164,14 @@
             <version>${openwebbeans.version}</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.openwebbeans</groupId>
             <artifactId>openwebbeans-resource</artifactId>
             <version>${openwebbeans.version}</version>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.openwebbeans.test</groupId>
             <artifactId>cditest</artifactId>

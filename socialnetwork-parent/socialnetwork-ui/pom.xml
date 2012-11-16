@@ -53,9 +53,8 @@
         <jsf-myfaces.version>2.1.7</jsf-myfaces.version>
         <jsf-mojarra.version>2.1.7</jsf-mojarra.version>        
         <jetty.maven.plugin.version>8.1.8.v20121106</jetty.maven.plugin.version>
-        <openwebbeans.version>1.1.4</openwebbeans.version>
-        <codi.version>1.0.5</codi.version>
         <guava.version>13.0.1</guava.version>
+        <openjpa.version>2.2.1</openjpa.version>        
     </properties>
 
     <build>
@@ -182,7 +181,16 @@
 		    <artifactId>guava</artifactId>
 		    <version>${guava.version}</version>
 		</dependency>
+		
+        <!-- JPA Implementation : OPENJPA -->
+        <dependency>
+            <groupId>org.apache.openjpa</groupId>
+            <artifactId>openjpa-all</artifactId>
+            <version>${openjpa.version}</version>
+        </dependency>
+		
 
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
@@ -323,6 +331,12 @@
                                 <version>${openwebbeans.version}</version>
                                 <scope>runtime</scope>
                             </dependency>
+					        <dependency>
+					            <groupId>org.apache.openjpa</groupId>
+					            <artifactId>openjpa-all</artifactId>
+					            <version>${openjpa.version}</version>
+					            <scope>runtime</scope>
+					        </dependency>
                             <dependency>
                                 <groupId>org.apache.openwebbeans</groupId>
                                 <artifactId>openwebbeans-resource</artifactId>
