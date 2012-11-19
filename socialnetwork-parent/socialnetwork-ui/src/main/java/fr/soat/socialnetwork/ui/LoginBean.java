@@ -1,5 +1,7 @@
 package fr.soat.socialnetwork.ui;
 
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -8,6 +10,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+
+import org.primefaces.context.RequestContext;
 
 import com.google.common.base.Optional;
 
@@ -20,8 +24,6 @@ import fr.soat.socialnetwork.service.login.ILoginService;
 public class LoginBean {
 
 	private ILoginService loginService;
-	private FacesContext context;
-   	private UserSessionBean userSession;
    	private IRememberMeService rememberMeService;
 
 	private Optional<IRememberedUser> rememberedUser;
@@ -30,6 +32,10 @@ public class LoginBean {
 	private String password;
 	private boolean rememberMe;
 
+	private String headerAction;
+
+	public static final String AUTH_KEY = "loggedUser";
+	
 	protected LoginBean()
 	{
 	}
@@ -37,14 +43,10 @@ public class LoginBean {
 	@Inject
 	public LoginBean(
 			ILoginService loginService,
-			IRememberMeService rememberMeService,
-			FacesContext context,
-			UserSessionBean userSession)
+			IRememberMeService rememberMeService)
 	{
 		this.loginService = loginService;
 		this.rememberMeService = rememberMeService;
-		this.context = context;
-		this.userSession = userSession;
 	}
 
 	@PostConstruct
@@ -72,6 +74,14 @@ public class LoginBean {
 
 	public void setRememberMe(boolean rememberMe) {
 		this.rememberMe = rememberMe;
+	}
+
+	public String getHeaderAction() {
+		return headerAction;
+	}
+
+	public void setHeaderAction(String headerAction) {
+		this.headerAction = headerAction;
 	}
 
 	public Boolean validateUser() {
@@ -117,20 +127,13 @@ public class LoginBean {
 	}
 
 	private void addErrorMessage() {
-		FacesMessage message = new FacesMessage("wrong user");
-		context.addMessage(null, message);
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "wrong user", "Le login et/ou le password est incorrect !");
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	private void putUserInSession(IUser user) {
-		getUserSession().setUser(user);
-	}
-
-	public UserSessionBean getUserSession() {
-		return userSession;
-	}
-
-	public void setUserSession(UserSessionBean userSession) {
-		this.userSession = userSession;
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
+		        AUTH_KEY, user);
 	}
 
 	private void fillBeanWithRememberedUser()
@@ -154,10 +157,26 @@ public class LoginBean {
 		setPassword(rememberedUser.getPassword());
 	}
 
-	public String logout() {
-		ExternalContext externalContext = context.getExternalContext();
+	public void logout() {
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		HttpSession session = (HttpSession) externalContext.getSession(false);
 		session.invalidate();
-		return "loggedout";
+		try {
+			externalContext.redirect("login.jsf");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
+	public boolean isLoggedIn() {
+	    return FacesContext.getCurrentInstance().getExternalContext()
+	        .getSessionMap().get(AUTH_KEY) != null;
+	}
+	
+	public void handleAction() {  
+        if(headerAction !=null && headerAction.equals("logoutAction"))  
+        	RequestContext.getCurrentInstance().execute("logoutConfirmation.show()");
+        	headerAction="loggedUser";
+    } 
 }

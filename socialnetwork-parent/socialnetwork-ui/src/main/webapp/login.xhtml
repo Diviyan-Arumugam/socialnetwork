@@ -1,25 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head></h:head>
 
 <h:body>
     <h:outputStylesheet name="style.css" library="css"/>
-    <h:form>
-        <h:messages />
-        <h:panelGrid columns="2">
-            <h:outputText value="Name" />
-            <h:inputText value="#{login.login}" />
-            <h:outputText value="Password" />
-            <h:inputSecret value="#{login.password}" redisplay="true"/>
-            <h:outputText value="Remember me" />
-            <h:selectBooleanCheckbox value="#{login.rememberMe}" /> 
-        </h:panelGrid>
-        <h:commandButton value="Login" action="#{login.validateUser}" />
+    <ui:include src="/template/commonHeader.xhtml" />
+    <h:form styleClass="login" id="login">
+		<p:panelGrid columns="1" styleClass="loginBloc">
+	        <p:panelGrid columns="2"  styleClass="loginPanel">
+	            <h:outputText value="#{msg['login.login.label']}" />
+	            <p:inputText value="#{login.login}" />
+	            <h:outputText value="#{msg['login.password.label']}" />
+	            <p:password  value="#{login.password}" redisplay="true"/>
+	            <h:outputText value="#{msg['login.rememberme.label']}" />
+	            <p:selectBooleanCheckbox value="#{login.rememberMe}" /> 
+	            <p:spacer/>
+	        	<p:commandButton value="#{msg['login.login.button']}" action="#{login.validateUser}"/>
+	        </p:panelGrid>
+        </p:panelGrid>
     </h:form>
 </h:body>
 </html>
+

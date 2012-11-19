@@ -13,13 +13,11 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+        <hibernate.version>4.1.8.Final</hibernate.version>
+        <codi.version>1.0.5</codi.version>
+        <openjpa.version>2.2.1</openjpa.version>
+    </properties>
 	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>socialnetwork-bo</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>socialnetwork-bo</artifactId>
@@ -31,33 +29,92 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
-			<version>1.2.17</version> </dependency> -->
-		<!-- Hibernate -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.21</version>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>0.5.1</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.apache.myfaces.extensions.cdi.modules</groupId> 
-			<artifactId>myfaces-extcdi-jpa1-module-api</artifactId> <version>${codi.version}</version> 
-			</dependency> <dependency> <groupId>org.apache.myfaces.extensions.cdi.modules</groupId> 
-			<artifactId>myfaces-extcdi-jpa1-module-impl</artifactId> <version>${codi.version}</version> 
-			</dependency> <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-core</artifactId> 
-			<version>4.1.7.Final</version> </dependency> <dependency> <groupId>org.hibernate.javax.persistence</groupId> 
-			<artifactId>hibernate-jpa-2.0-api</artifactId> <version>1.0.1.Final</version> 
-			</dependency> -->
+        
+        <!-- JPA Implementation : hibernate -->
+  <!-- 
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.5.3-Final</version>
-			<!-- <exclusions>
-				<exclusion>
-					<groupId>org.hibernate.javax.persistence</groupId>
-					<artifactId>hibernate-jpa-2.0-api</artifactId>
-				</exclusion>
-			</exclusions> -->
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate.javax.persistence</groupId>
+                    <artifactId>hibernate-jpa-2.0-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate.javax.persistence</groupId>
+                    <artifactId>hibernate-commons-annotations</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
+		 -->
+		 
+        <!-- JPA Implementation : HSQLDB -->		 
+ <!--
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.7</version>
+        </dependency>		
+-->	
+        <!-- JPA Implementation : OPENJPA -->
+    <dependency>
+            <groupId>org.apache.openjpa</groupId>
+            <artifactId>openjpa-all</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+    
+        <!-- JPA API -->
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jpa_2.0_spec</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+         <!-- 
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <version>1.0.1.Final</version>
+        </dependency>
+         -->
+        
+        <!-- CODI (Apache MyFaces Extensions CDI) JPA -->
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.core</groupId>
+            <artifactId>myfaces-extcdi-core-api</artifactId>
+            <version>${codi.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.core</groupId>
+            <artifactId>myfaces-extcdi-core-impl</artifactId>
+            <version>${codi.version}</version>
+            <scope>runtime</scope>
+        </dependency>        
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.modules</groupId>
+            <artifactId>myfaces-extcdi-jpa1-module-api</artifactId>
+            <version>${codi.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.modules</groupId>
+            <artifactId>myfaces-extcdi-jpa1-module-impl</artifactId>
+            <version>${codi.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+		
+        <!-- CDI (injection)  -->		
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-jcdi_1.0_spec</artifactId>
