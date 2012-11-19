@@ -13,9 +13,9 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernate.version>4.1.8.Final</hibernate.version>
-        <codi.version>1.0.5</codi.version>
         <openjpa.version>2.2.1</openjpa.version>
+        <mysql.version>5.1.21</mysql.version>
+        <hsqldb.version>2.2.9</hsqldb.version>
     </properties>
 	<dependencies>
 		<dependency>
@@ -64,10 +64,10 @@
         </dependency>		
 -->	
         <!-- JPA Implementation : OPENJPA -->
-    <dependency>
+        <dependency>
             <groupId>org.apache.openjpa</groupId>
             <artifactId>openjpa-all</artifactId>
-            <version>2.2.1</version>
+            <version>${openjpa.version}</version>
         </dependency>
     
         <!-- JPA API -->
@@ -127,7 +127,80 @@
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
-	</dependencies>
+		
+		<!-- MYSQL Database Connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        
+        <!-- HSQLDB Database Connector (tests) -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
+            <scope>test</scope>
+        </dependency>		
+		
+        <!-- CODI test modules -->
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.test</groupId>
+            <artifactId>myfaces-extcdi-junit-support-module</artifactId>
+            <version>${codi.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.test</groupId>
+            <artifactId>myfaces-extcdi-owb-support-module</artifactId>
+            <version>${codi.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- OpenWebBeans test modules -->
+        <dependency>
+            <groupId>org.apache.openwebbeans.test</groupId>
+            <artifactId>cditest</artifactId>
+            <version>${openwebbeans.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.openwebbeans</groupId>
+            <artifactId>openwebbeans-resource</artifactId>
+            <version>${openwebbeans.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.openwebbeans.test</groupId>
+            <artifactId>cditest</artifactId>
+            <version>${openwebbeans.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.openwebbeans.test</groupId>
+            <artifactId>cditest-owb</artifactId>
+            <version>${openwebbeans.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-interceptor_1.1_spec</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
+        </dependency>        
+
+        
+    </dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -147,6 +220,34 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<plugin>
+	            <groupId>org.apache.openjpa</groupId>
+	            <artifactId>openjpa-maven-plugin</artifactId>
+	            <version>2.2.0</version>
+	            <configuration>
+	                <includes>**/entity/*.class</includes>
+	                <excludes>**/entity/XML*.class</excludes>
+	                <addDefaultConstructor>true</addDefaultConstructor>
+	                <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
+	            </configuration>
+	            <executions>
+	                <execution>
+	                    <id>enhancer</id>
+	                    <phase>process-classes</phase>
+	                    <goals>
+	                        <goal>enhance</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	            <dependencies>
+	                <dependency>
+	                    <groupId>org.apache.openjpa</groupId>
+	                    <artifactId>openjpa</artifactId>
+	                    <!-- set the version to be the same as the level in your runtime -->
+	                    <version>${openjpa.version}</version>
+	                </dependency>
+	            </dependencies>
+            </plugin>			
 		</plugins>
 		<filters>
 			<filter>src/main/filters/default.properties</filter>
