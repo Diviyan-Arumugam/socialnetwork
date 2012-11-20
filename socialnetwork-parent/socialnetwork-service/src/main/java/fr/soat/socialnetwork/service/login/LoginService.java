@@ -6,9 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.bo.User;
 import fr.soat.socialnetwork.bo.WrongUser;
-import fr.soat.socialnetwork.dao.mapper.UserDAOService;
+import fr.soat.socialnetwork.service.user.IUserService;
 
 @Named("LoginService")
 @ApplicationScoped
@@ -16,17 +15,13 @@ import fr.soat.socialnetwork.dao.mapper.UserDAOService;
 public class LoginService implements ILoginService {
 
 	@Inject
-	UserDAOService userDaoService;
+	IUserService userService;
 
 	public IUser getUser(String login, String password) {
 		IUser user = new WrongUser();
 
-		if (("christophe".equals(login)) && ("christophe".equals(password))) {
-			user = new User();
-			user.setLogin(login);
-			user.setPassword(password);
-
-		}
+		user = userService.getIUser(login, password);
+		
 		return user;
 	}
 

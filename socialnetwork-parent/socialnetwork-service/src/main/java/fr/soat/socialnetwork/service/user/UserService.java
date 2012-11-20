@@ -1,4 +1,4 @@
-package fr.soat.socialnetwork.dao.mapper;
+package fr.soat.socialnetwork.service.user;
 
 import java.util.List;
 
@@ -6,28 +6,40 @@ import javax.inject.Inject;
 
 import fr.soat.socialnetwork.bo.IUser;
 import fr.soat.socialnetwork.bo.User;
+import fr.soat.socialnetwork.dao.DAOException;
 import fr.soat.socialnetwork.dao.IUserDAO;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 
-public class UserDAOService {
+public class UserService implements IUserService {
 	
 	@Inject
 	IUserDAO dao;
 	
+	//@Inject
+	//iencryptio
+	
+	/* (non-Javadoc)
+	 * @see fr.soat.socialnetwork.dao.mapper.IUserService#getIUser(java.lang.String, java.lang.String)
+	 */
 	public IUser getIUser(String email, String password) {
-		String firstName = "firstName";
-		String lastName = "lastName";
-		String email1 = "guillaume.prehu@soat.fr";
-		UserDTO user = new UserDTO(firstName, lastName, email1);
-		dao.save(user);
+		createUser();
 		
 		return null;
 	}
+	
+	public IUser getByEmailPassword(String login, String password) {
+		try {
+			return dao.findByLoginPassword(login, password);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-	/**
-	 * 
+	/* (non-Javadoc)
+	 * @see fr.soat.socialnetwork.dao.mapper.IUserService#findAll()
 	 */
-	private IUser findAll() {
+	public IUser findAll() {
 		List<User> userDTO = dao.findAll();
 		
 		if(userDTO.isEmpty()) {
@@ -36,6 +48,9 @@ public class UserDAOService {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.soat.socialnetwork.dao.mapper.IUserService#resetPassword(java.lang.String)
+	 */
 	public void resetPassword(String email) {
 		
 	}

@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import fr.soat.socialnetwork.bo.IUser;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -23,6 +24,8 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 	private final String firstName = "firstName";
 	private final String lastName = "lastName";
 	private final String email = "guillaume.prehu@soat.fr";
+	private final String login = "gprehu@soat.fr";
+	private final String password = "password";
 
 	@Inject
 	UserDAO dao;
@@ -63,7 +66,12 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 	public void testFindByEmail() {
 		UserDTO user = createUser();
 		dao.save(user);
-		UserDTO userStored = dao.getByEmail(email);
+		IUser userStored = null;
+		try {
+			userStored = dao.findByLoginPassword(login, password);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 		Assert.assertNotNull(userStored);
 		Assert.assertEquals(user, userStored);
 	}
