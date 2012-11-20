@@ -8,7 +8,6 @@
 		<artifactId>socialnetwork-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>fr.soat.socialnetwork</groupId>
 	<artifactId>socialnetwork-common-services</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>socialnetwork-common-services</name>

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.bo.User;
 import fr.soat.socialnetwork.dao.DAOException;
 import fr.soat.socialnetwork.dao.IUserDAO;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
@@ -40,7 +39,7 @@ public class UserService implements IUserService {
 	 * @see fr.soat.socialnetwork.dao.mapper.IUserService#findAll()
 	 */
 	public IUser findAll() {
-		List<User> userDTO = dao.findAll();
+		List<IUser> userDTO = dao.findAll();
 		
 		if(userDTO.isEmpty()) {
 			return userDTO.get(0);

@@ -52,9 +52,7 @@ public class LoginBeanTest {
 	private void createEmptyLoginBean() {
 		loginBean = new LoginBean(
 				loginService,
-				rememberMeService,
-				facesContext,
-				userSession);
+				rememberMeService);
 		loginBean.init();
 	}
 

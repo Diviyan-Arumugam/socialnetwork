@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+	<p:panelGrid columns="3" styleClass="header">  
+		<p:column><p:graphicImage value="/resources/images/soat-logo.png" /></p:column>
+		<p:column><p:graphicImage value="/resources/images/Bandeau_client_home.png"/></p:column>
+		<p:column>
+			<p:panelGrid columns="1" rendered="#{login.loggedIn}">
+			<p:selectOneMenu id="headerMenu" value="#{login.headerAction}" styleClass="headerAction">  
+				<p:ajax listener="#{login.handleAction}"/>
+	            <f:selectItem itemLabel="#{loggedUser.login}" itemValue="loggedUser"/>  
+	            <f:selectItem itemLabel="#{msg['header.disconnect.link']}" itemValue="logoutAction"/>  
+	        </p:selectOneMenu> 
+		    </p:panelGrid>
+			<p:spacer rendered="#{not login.loggedIn}"/>
+		</p:column>
+ 	</p:panelGrid>
+    <p:growl id="growl" showDetail="true" sticky="false" life="5000" showSummary="false" />  
+    
+    <p:confirmDialog id="confirmDialog" message="#{msg['header.disconnect.popup.label']}"  
+                severity="alert" widgetVar="logoutConfirmation">  
+        <p:commandButton id="confirm" value="#{msg['common.yes.label']}" oncomplete="logoutConfirmation.hide()"  
+                    actionListener="#{login.logout}" />  
+        <p:commandButton id="decline" value="#{msg['common.no.label']}" onclick="logoutConfirmation.hide();" type="button">
+        	<p:ajax update="headerMenu"/>
+        </p:commandButton>
+    </p:confirmDialog>  
+</ui:composition>

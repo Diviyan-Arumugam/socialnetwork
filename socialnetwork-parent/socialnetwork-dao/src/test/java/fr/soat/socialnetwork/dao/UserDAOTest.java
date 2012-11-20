@@ -1,5 +1,10 @@
 package fr.soat.socialnetwork.dao;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
+
 import javax.inject.Inject;
 
 import org.junit.After;
@@ -11,12 +16,6 @@ import org.junit.runners.JUnit4;
 
 import fr.soat.socialnetwork.bo.IUser;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-
-import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.AbstractCdiAwareTest {

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -109,4 +109,20 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
+	<filter>
+	    <filter-name>AutoDisconnectFilter</filter-name>
+	    <filter-class>fr.soat.socialnetwork.ui.AutoDisconnectFilter</filter-class>
+	  </filter>
+	  <filter-mapping>
+	    <filter-name>AutoDisconnectFilter</filter-name>
+	    <url-pattern>/restricted/*</url-pattern>
+	  </filter-mapping>
+	<filter>
+	    <filter-name>AutoLoginFilter</filter-name>
+	    <filter-class>fr.soat.socialnetwork.ui.AutoLoginFilter</filter-class>
+	  </filter>
+	  <filter-mapping>
+	    <filter-name>AutoLoginFilter</filter-name>
+	    <url-pattern>/login.jsf</url-pattern>
+	  </filter-mapping>
 </web-app>

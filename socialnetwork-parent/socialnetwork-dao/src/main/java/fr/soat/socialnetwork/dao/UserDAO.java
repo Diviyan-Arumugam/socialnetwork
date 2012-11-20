@@ -14,38 +14,25 @@ import javax.persistence.criteria.Root;
 import org.apache.myfaces.extensions.cdi.jpa.api.Transactional;
 
 import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.bo.User;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 import fr.soat.socialnetwork.dao.transformer.UserTransfromer;
 import fr.soat.socialnetwork.service.encryption.EncryptionServiceException;
 import fr.soat.socialnetwork.service.encryption.IEncryptionService;
 
+
 public class UserDAO implements IUserDAO {
 
 	@PersistenceContext(unitName = "soatsocial")
-	private EntityManager em;
+	private EntityManager entityManager;
 
 	@Inject
 	IEncryptionService encryptionService;
 	
 	@Inject UserTransfromer transformer;
 
-	public EntityManager getEntityManager() {
-		return em;
-	}
-
-	public void setEntityManager(EntityManager em) {
-		this.em = em;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.soat.socialnetwork.dao.IUserDAO#find(long)
-	 */
 	@Transactional
 	public UserDTO find(long id) {
-		return em.find(UserDTO.class, id);
+		return entityManager.find(UserDTO.class, id);
 	}
 
 	/*
@@ -56,10 +43,10 @@ public class UserDAO implements IUserDAO {
 	 */
 	@Transactional
 	public UserDTO save(UserDTO entity) {
-		em.persist(entity);
+		entityManager.persist(entity);
 		// em.getTransaction().commit();
 		// return entity;
-		return em.merge(entity);
+		return entityManager.merge(entity);
 	}
 
 	public IUser findByLoginPassword(String login, String password)
@@ -72,13 +59,13 @@ public class UserDAO implements IUserDAO {
 			throw new DAOException(e);
 		}
 
-		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<UserDTO> user = criteriaQuery.from(UserDTO.class);
 		criteriaQuery.where(criteriaBuilder.equal(user.get("login"), login), criteriaBuilder.equal(user.get("password"), encryptedPass));
 		CriteriaQuery<Object> select = criteriaQuery.select(user);
 		
-		TypedQuery<Object> typedQuery = em.createQuery(select);
+		TypedQuery<Object> typedQuery = entityManager.createQuery(select);
 		List<Object> resultList = typedQuery.getResultList();
 		UserDTO userdto = (UserDTO) resultList.get(0);
 		
@@ -93,13 +80,21 @@ public class UserDAO implements IUserDAO {
 	 */
 	@Transactional
 	public UserDTO update(UserDTO entity) {
-		em.persist(entity);
-		return em.merge(entity);
+		entityManager.persist(entity);
+		return entityManager.merge(entity);
 	}
 
-	public List<User> findAll() {
-		Query query = em.createQuery("SELECT e FROM user e");
+	public List<IUser> findAll() {
+		Query query = entityManager.createQuery("SELECT e FROM user e");
 		return query.getResultList();
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }
