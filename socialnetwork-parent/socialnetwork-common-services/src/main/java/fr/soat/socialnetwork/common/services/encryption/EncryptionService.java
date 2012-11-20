@@ -1,4 +1,4 @@
-package fr.soat.socialnetwork.service.encryption;
+package fr.soat.socialnetwork.common.services.encryption;
 
 import java.security.InvalidKeyException;
 

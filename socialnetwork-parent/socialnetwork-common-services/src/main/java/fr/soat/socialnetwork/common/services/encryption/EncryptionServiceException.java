@@ -1,4 +1,4 @@
-package fr.soat.socialnetwork.service.encryption;
+package fr.soat.socialnetwork.common.services.encryption;
 
 public class EncryptionServiceException extends Exception {
 

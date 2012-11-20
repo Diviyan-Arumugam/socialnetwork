@@ -14,10 +14,10 @@ import javax.persistence.criteria.Root;
 import org.apache.myfaces.extensions.cdi.jpa.api.Transactional;
 
 import fr.soat.socialnetwork.bo.IUser;
+import fr.soat.socialnetwork.common.services.encryption.EncryptionServiceException;
+import fr.soat.socialnetwork.common.services.encryption.IEncryptionService;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
 import fr.soat.socialnetwork.dao.transformer.UserTransfromer;
-import fr.soat.socialnetwork.service.encryption.EncryptionServiceException;
-import fr.soat.socialnetwork.service.encryption.IEncryptionService;
 
 
 public class UserDAO implements IUserDAO {
@@ -31,8 +31,8 @@ public class UserDAO implements IUserDAO {
 	@Inject UserTransfromer transformer;
 
 	@Transactional
-	public UserDTO find(long id) {
-		return entityManager.find(UserDTO.class, id);
+	public IUser find(long id) {
+		return transformer.getIUserFromUserDTO(entityManager.find(UserDTO.class, id));
 	}
 
 	/*
@@ -42,11 +42,16 @@ public class UserDAO implements IUserDAO {
 	 * fr.soat.socialnetwork.dao.IUserDAO#save(fr.soat.socialnetwork.dao.User)
 	 */
 	@Transactional
-	public UserDTO save(UserDTO entity) {
-		entityManager.persist(entity);
-		// em.getTransaction().commit();
-		// return entity;
-		return entityManager.merge(entity);
+	public IUser save(IUser user) throws DAOException {
+		try {
+			user.setPassword(encryptionService.encrypt(user.getPassword()));
+		} catch (EncryptionServiceException e) {
+			throw new DAOException(e);
+		}
+		
+		final UserDTO userDTO = transformer.getUserDTOFromIUser(user);
+		entityManager.persist(userDTO);
+		return transformer.getIUserFromUserDTO(entityManager.merge(userDTO));
 	}
 
 	public IUser findByLoginPassword(String login, String password)
@@ -79,9 +84,10 @@ public class UserDAO implements IUserDAO {
 	 * fr.soat.socialnetwork.dao.IUserDAO#update(fr.soat.socialnetwork.dao.User)
 	 */
 	@Transactional
-	public UserDTO update(UserDTO entity) {
-		entityManager.persist(entity);
-		return entityManager.merge(entity);
+	public IUser update(IUser entity) {
+		UserDTO userDTO = transformer.getUserDTOFromIUser(entity);
+		entityManager.persist(userDTO);
+		return transformer.getIUserFromUserDTO(entityManager.merge(userDTO));
 	}
 
 	public List<IUser> findAll() {

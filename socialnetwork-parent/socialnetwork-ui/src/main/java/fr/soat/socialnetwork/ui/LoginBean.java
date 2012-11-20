@@ -16,7 +16,7 @@ import org.primefaces.context.RequestContext;
 import com.google.common.base.Optional;
 
 import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.service.encryption.EncryptionServiceException;
+import fr.soat.socialnetwork.common.services.encryption.EncryptionServiceException;
 import fr.soat.socialnetwork.service.login.ILoginService;
 
 @Named("login")

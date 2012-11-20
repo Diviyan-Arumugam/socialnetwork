@@ -8,6 +8,7 @@ import fr.soat.socialnetwork.bo.IUser;
 import fr.soat.socialnetwork.dao.DAOException;
 import fr.soat.socialnetwork.dao.IUserDAO;
 import fr.soat.socialnetwork.dao.entity.UserDTO;
+import fr.soat.socialnetwork.service.ServiceException;
 
 public class UserService implements IUserService {
 	
@@ -26,13 +27,12 @@ public class UserService implements IUserService {
 		return null;
 	}
 	
-	public IUser getByEmailPassword(String login, String password) {
+	public IUser getByEmailPassword(String login, String password) throws ServiceException {
 		try {
 			return dao.findByLoginPassword(login, password);
 		} catch (DAOException e) {
-			e.printStackTrace();
+			throw new ServiceException(e);
 		}
-		return null;
 	}
 
 	/* (non-Javadoc)

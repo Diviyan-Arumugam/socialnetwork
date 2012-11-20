@@ -7,6 +7,7 @@ import javax.inject.Named;
 
 import fr.soat.socialnetwork.bo.IUser;
 import fr.soat.socialnetwork.bo.WrongUser;
+import fr.soat.socialnetwork.service.ServiceException;
 import fr.soat.socialnetwork.service.user.IUserService;
 
 @Named("LoginService")
@@ -20,7 +21,11 @@ public class LoginService implements ILoginService {
 	public IUser getUser(String login, String password) {
 		IUser user = new WrongUser();
 
-		user = userService.getIUser(login, password);
+		try {
+			user = userService.getByEmailPassword(login, password);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 		
 		return user;
 	}

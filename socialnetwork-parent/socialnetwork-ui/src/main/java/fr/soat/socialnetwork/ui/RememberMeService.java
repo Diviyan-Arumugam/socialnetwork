@@ -11,8 +11,8 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 
 import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.service.encryption.EncryptionServiceException;
-import fr.soat.socialnetwork.service.encryption.IEncryptionService;
+import fr.soat.socialnetwork.common.services.encryption.EncryptionServiceException;
+import fr.soat.socialnetwork.common.services.encryption.IEncryptionService;
 
 @Named
 @ApplicationScoped
@@ -20,6 +20,7 @@ import fr.soat.socialnetwork.service.encryption.IEncryptionService;
 public class RememberMeService implements IRememberMeService {
 
 	private IRememberMeCookieManager cookieManager;
+	@Inject
 	private IEncryptionService encryptionService;
 
 	protected static final String NAME_COOKIE_PREFIX = "SoatSocial_UserName";
@@ -30,11 +31,9 @@ public class RememberMeService implements IRememberMeService {
 	}
 
 	@Inject
-	public RememberMeService(IRememberMeCookieManager cookieManager,
-							 IEncryptionService encryptionService)
+	public RememberMeService(IRememberMeCookieManager cookieManager)
 	{
 		this.cookieManager = cookieManager;
-		this.encryptionService = encryptionService;
 	}
 
 	@Override

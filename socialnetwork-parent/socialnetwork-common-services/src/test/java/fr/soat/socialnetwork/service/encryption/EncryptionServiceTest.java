@@ -8,6 +8,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import fr.soat.socialnetwork.common.services.encryption.EncryptionService;
+import fr.soat.socialnetwork.common.services.encryption.EncryptionServiceException;
+import fr.soat.socialnetwork.common.services.encryption.ICipherProvider;
+import fr.soat.socialnetwork.common.services.encryption.IEncryptionService;
+import fr.soat.socialnetwork.common.services.encryption.ISecretKeyProvider;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 

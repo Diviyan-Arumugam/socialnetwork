@@ -3,19 +3,18 @@ package fr.soat.socialnetwork.dao;
 import java.util.List;
 
 import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.dao.entity.UserDTO;
 
 public interface IUserDAO {
 
-	public abstract UserDTO find(long id);
+	public abstract IUser find(long id);
 	
 	public abstract List<IUser> findAll();
 
-	public abstract UserDTO save(UserDTO entity);
+	public abstract IUser save(IUser entity) throws DAOException;
 
 	public IUser findByLoginPassword(String login, String password)
 			throws DAOException;
 	
-	public UserDTO update(UserDTO entity);
+	public IUser update(IUser entity);
 	
 }
