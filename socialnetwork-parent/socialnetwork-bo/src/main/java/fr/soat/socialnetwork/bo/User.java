@@ -1,5 +1,7 @@
 package fr.soat.socialnetwork.bo;
 
+import java.util.List;
+
 public class User implements IUser {
 
 	private String login;
@@ -7,6 +9,7 @@ public class User implements IUser {
 	private String lastName;
 	private String email;
 	private String password;
+	private List<Group> groups;
 
 	public String getFirstName() {
 		return firstName;
@@ -50,5 +53,13 @@ public class User implements IUser {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
 	}
 }

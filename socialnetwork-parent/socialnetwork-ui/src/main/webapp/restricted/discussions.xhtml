@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head></h:head>
+
+<h:body>
+    <h:outputStylesheet name="style.css" library="css"/>
+    <ui:include src="/template/commonHeader.xhtml" />
+    
+    <p:panelGrid columns="2" styleClass="mainScreen"> 
+    <p:column><ui:include src="/template/commonMenu.xhtml" /></p:column>
+    <p:column styleClass="mainScreen">
+    	<p:tabView id="discussionTabView" activeIndex="#{discussionBean.tabIndex}">
+    		<p:ajax event="tabClose" listener="#{discussionBean.closeDiscussion}" update=":discussionTabView"/> 
+		    <p:tab id="allDiscussionTab" title="#{msg['discussiontab.discussions.label']}">  
+		        <p:dataTable id="discussions" var="discussion" value="#{discussionBean.allDiscussions}" paginator="true" rows="10"
+		        	selection="#{discussionBean.currentDiscussion}" selectionMode="single" rowKey="#{discussion.id}" styleClass="discussions">  
+					<p:ajax event="rowSelect" listener="#{discussionBean.onRowSelect}"   
+                    	update=":discussionTabView" />  
+			        <p:column headerText="Sujet">
+			        	<h:outputText value="#{discussion.subject}"/>  
+			        </p:column>  
+			  
+			        <p:column headerText="cree par">  
+			            <h:outputText value="#{discussion.createdBy.login} - #{discussion.createdBy.firstName} #{discussion.createdBy.lastName}"/>
+			        </p:column>  
+			  
+			        <p:column headerText="cree le" >  
+			            <h:outputText value="#{discussion.creationTime}">
+			            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+			            </h:outputText>
+			        </p:column>  
+			  
+			        <p:column headerText="MAJ par">  
+			            <h:outputText value="#{discussion.updatedBy.login} - #{discussion.updatedBy.firstName} #{discussion.updatedBy.lastName}"/>
+			        </p:column>  
+
+			        <p:column headerText="MAJ le">  
+			            <h:outputText value="#{discussion.updateTime}">
+			            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+			            </h:outputText> 
+			        </p:column>  
+			    </p:dataTable>  
+		    </p:tab>  
+		    <c:forEach items="#{discussionBean.openedDiscussions}" var="openedDiscussion">
+		   		<p:tab title="#{openedDiscussion.subject}" closable="true">
+		   			<c:forEach items="#{openedDiscussion.posts}" var="post">
+			    		<p:panelGrid styleClass="postPanelGrid">
+	    					<p:row>
+	    						<p:column styleClass="postLogin">
+	    							<h:outputText value="#{post.postedBy.login} - #{post.postedBy.firstName} #{post.postedBy.lastName}"/>
+	    						</p:column>
+	    						<p:column rowspan="2">
+	    							<h:outputText value="#{post.detail}"/>
+	    						</p:column>
+	    					</p:row>
+	    					<p:row>
+					            <p:column styleClass="postTime">
+						            <h:outputText value="#{post.postTime}">
+						            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						            </h:outputText>
+						        </p:column>
+	    					</p:row>
+			    		</p:panelGrid>
+		        	</c:forEach>
+			    </p:tab>
+		    </c:forEach>
+		</p:tabView></p:column>
+		</p:panelGrid>
+</h:body>
+
+</html>

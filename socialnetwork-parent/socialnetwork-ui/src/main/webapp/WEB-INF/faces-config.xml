@@ -19,7 +19,7 @@
             <description>Valid user</description>
             <from-action>#{login.validateUser}</from-action>
             <from-outcome>true</from-outcome>
-            <to-view-id>/restricted/welcome.xhtml</to-view-id>
+            <to-view-id>/restricted/discussions.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         <navigation-case>
@@ -30,8 +30,8 @@
     </navigation-rule>
     
     <navigation-rule>
-        <display-name>welcome page</display-name>
-        <from-view-id>/restricted/welcome.xhtml</from-view-id>
+        <display-name>Discussions page</display-name>
+        <from-view-id>/restricted/discussions.xhtml</from-view-id>
         <navigation-case>
             <from-action>#{login.logout}</from-action>
             <from-outcome>loggedout</from-outcome>

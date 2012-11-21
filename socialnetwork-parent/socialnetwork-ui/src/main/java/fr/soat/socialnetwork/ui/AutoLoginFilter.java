@@ -20,7 +20,7 @@ public class AutoLoginFilter implements Filter {
       FilterChain chain) throws IOException, ServletException {
     if (((HttpServletRequest) req).getSession().getAttribute(
             LoginBean.AUTH_KEY) != null) {
-    	((HttpServletResponse) resp).sendRedirect("./restricted/welcome.jsf");
+    	((HttpServletResponse) resp).sendRedirect("./restricted/discussions.jsf");
     } else {
       chain.doFilter(req, resp);
     }
