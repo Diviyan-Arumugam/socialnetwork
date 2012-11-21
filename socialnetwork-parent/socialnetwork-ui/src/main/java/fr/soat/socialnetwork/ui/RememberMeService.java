@@ -40,10 +40,7 @@ public class RememberMeService implements IRememberMeService {
 	public void rememberMe(IUser realUser) throws EncryptionServiceException
 	{
 		setLogin(realUser.getLogin());
-
-		String password = realUser.getPassword();
-		String encryptedPassword = encryptionService.encrypt(password);
-		setEncryptedPassword(encryptedPassword);
+		setEncryptedPassword(realUser.getPassword());
 	}
 
 	@Override
