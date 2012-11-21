@@ -12,6 +12,7 @@
     <module>socialnetwork-ui</module>
     <module>socialnetwork-dao</module>
     <module>socialnetwork-bo</module>
+    <module>socialnetwork-common-services</module>
   </modules>
   
   <properties>

@@ -21,6 +21,7 @@ public class UserDTO extends AbstractEntity {
     private String lastName;
 	private String email;
 	private String password;
+	private String login;
 	
 	public String getPassword() {
 		return password;
@@ -30,7 +31,7 @@ public class UserDTO extends AbstractEntity {
 		this.password = password;
 	}
 
-	public UserDTO(String firstName, String lastName, String email) {
+	public UserDTO(String firstName,  String lastName, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -73,6 +74,14 @@ public class UserDTO extends AbstractEntity {
 		this.email = email;
 	}
 	
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

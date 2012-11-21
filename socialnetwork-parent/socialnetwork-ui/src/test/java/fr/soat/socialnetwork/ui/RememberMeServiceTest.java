@@ -1,5 +1,12 @@
 package fr.soat.socialnetwork.ui;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,17 +16,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.google.common.base.Optional;
 
 import fr.soat.socialnetwork.bo.IUser;
-import fr.soat.socialnetwork.service.encryption.EncryptionServiceException;
-import fr.soat.socialnetwork.service.encryption.IEncryptionService;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-
-import static org.junit.Assert.assertThat;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import fr.soat.socialnetwork.common.services.encryption.EncryptionServiceException;
+import fr.soat.socialnetwork.common.services.encryption.IEncryptionService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RememberMeServiceTest {
@@ -38,8 +36,7 @@ public class RememberMeServiceTest {
 
 	private void createService()
 	{
-		rememberMeService = new RememberMeService(cookieManager,
-				encryptionService);
+		rememberMeService = new RememberMeService(cookieManager);
 	}
 
 	@Test

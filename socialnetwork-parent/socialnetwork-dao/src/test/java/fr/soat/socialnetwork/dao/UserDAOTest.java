@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 
 import javax.inject.Inject;
 
+import org.apache.myfaces.extensions.cdi.test.junit4.AbstractCdiAwareTest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,21 +15,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import fr.soat.socialnetwork.dao.entity.UserDTO;
+import fr.soat.socialnetwork.bo.IUser;
+import fr.soat.socialnetwork.bo.User;
 
 @RunWith(JUnit4.class)
-public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.AbstractCdiAwareTest {
+public class UserDAOTest extends AbstractCdiAwareTest {
 
 	private final String firstName = "firstName";
 	private final String lastName = "lastName";
 	private final String email = "guillaume.prehu@soat.fr";
+	private final String login = "gprehu";
+	private final String password = "password";
 
 	@Inject
-	UserDAO dao;
+	IUserDAO dao;
 
 	@Before
 	public void setUp() throws Exception {
-		//dao.getEntityManager().getTransaction().begin();
+		// dao.getEntityManager().getTransaction().begin();
 	}
 
 	/**
@@ -36,76 +40,61 @@ public class UserDAOTest extends org.apache.myfaces.extensions.cdi.test.junit4.A
 	 */
 	@After
 	public void tearDown() throws Exception {
-		//dao.getEntityManager().getTransaction().rollback();
+		// dao.getEntityManager().getTransaction().rollback();
 	}
 
 	@Test
 	public void testGetEntityManager() {
-		assertThat(dao.getEntityManager(), is(not(nullValue())));
+		assertThat(dao, is(not(nullValue())));
 	}
 
 	@Test
 	public void testInsert() {
-		dao.getEntityManager().getTransaction().begin();
-		UserDTO user = createUser();
-		dao.getEntityManager().getTransaction().commit();
-		Assert.assertNotNull(user.getId());
-	}
-
-	private UserDTO createUser() {
-		UserDTO user = new UserDTO(firstName, lastName, email);
-		dao.save(user);
-		return user;
+		IUser user = createUser();
+		IUser user2 = save(user);
+		Assert.assertNotNull(user2);
 	}
 
 	@Test
-	public void testFindByEmail() {
-		UserDTO user = createUser();
-		dao.save(user);
-		UserDTO userStored = dao.getByEmail(email);
+	public void testFindByLoginPassword() {
+		IUser user = save(createUser());
+		IUser userStored = null;
+		try {
+			userStored = dao.findByLoginPassword(login, password);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 		Assert.assertNotNull(userStored);
 		Assert.assertEquals(user, userStored);
 	}
 
 	@Test
 	public void testUpdate() {
-		UserDTO user = createUser();
-		UserDTO userStored = dao.save(user);
+		IUser user = save(createUser());
+		user.setEmail("toto");
+		IUser userStored = dao.update(user);
 		Assert.assertNotNull(userStored);
-		Assert.assertNotNull(userStored.getId());
-		userStored.setFirstName("user2");
-		user = dao.update(userStored);
-		Assert.assertEquals(userStored, user);
+		Assert.assertNotNull(userStored.getEmail());
+		Assert.assertTrue(user.getEmail().equals(userStored.getEmail()));
 	}
 
-	// @Test
-	// public void testDelete() {
-	// User user = new User();
-	// user.setUsername("user1");
-	// user.setPassword("password");
-	// user.setStatus(Boolean.TRUE);
-	// Long id = dao.insert(user);
-	// dao.delete(user);
-	// Assert.assertNull(dao.find(id));
-	// }
-	//
-	//
+	private IUser createUser() {
+		IUser user = new User();
+		user.setEmail(email);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setLogin(login);
+		user.setPassword(password);
+		return user;
+	}
 
+	private IUser save(IUser user) {
+		try {
+			user = dao.save(user);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
 
-	// @Test
-	// public void testFindAll() {
-	// User user = new User();
-	// user.setUsername("user1");
-	// user.setPassword("password");
-	// user.setStatus(Boolean.TRUE);
-	// dao.insert(user);
-	//
-	// User user2 = new User();
-	// user2.setUsername("user2");
-	// user2.setPassword("password");
-	// user2.setStatus(Boolean.TRUE);
-	// dao.insert(user2);
-	//
-	// assertEquals(2, dao.findAll().size());
-	// }
 }
