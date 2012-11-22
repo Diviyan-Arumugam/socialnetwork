@@ -10,16 +10,17 @@ import javax.inject.Named;
 
 import fr.soat.socialnetwork.bo.Discussion;
 import fr.soat.socialnetwork.bo.Group;
+import fr.soat.socialnetwork.bo.IDiscussion;
 import fr.soat.socialnetwork.bo.Post;
 import fr.soat.socialnetwork.bo.User;
 
 @Named("DiscussionService")
 @ApplicationScoped
 @ Default
-public class DiscussionService implements IDiscussionService{
+public class DiscussionService implements IDiscussionService {
 
-	public List<Discussion> getAllDiscussionsByGroups(List<Group> groups) {
-		List<Discussion> discussions = new ArrayList<Discussion>();
+	public List<IDiscussion> getAllDiscussionsByGroups(List<Group> groups) {
+		List<IDiscussion> discussions = new ArrayList<IDiscussion>();
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR,2012);
 		cal.set(Calendar.MONTH,11);
@@ -29,7 +30,7 @@ public class DiscussionService implements IDiscussionService{
 		userPost1.setFirstName("Didier");
 		userPost1.setLastName("MAURER");
 
-		Discussion discussion1 = new Discussion();
+		IDiscussion discussion1 = new Discussion();
 		discussion1.setId(1);
 		discussion1.setSubject("Nouveau sujet de discussion");
 		discussion1.setCreatedBy(userPost1);
@@ -49,7 +50,7 @@ public class DiscussionService implements IDiscussionService{
 		userPost2.setFirstName("Guillaume");
 		userPost2.setLastName("PREHU");
 
-		Discussion discussion2 = new Discussion();
+		IDiscussion discussion2 = new Discussion();
 		discussion2.setId(2);
 		discussion2.setSubject("Autre nouveau sujet de discussion");
 		discussion2.setCreatedBy(userPost2);
@@ -65,7 +66,7 @@ public class DiscussionService implements IDiscussionService{
 		return discussions;
 	}
 
-	public Discussion getDiscussionById(int discussionId) {
+	public IDiscussion getDiscussionById(int discussionId) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR,2012);
 		cal.set(Calendar.MONTH,11);
@@ -75,7 +76,7 @@ public class DiscussionService implements IDiscussionService{
 		userPost1.setFirstName("Didier");
 		userPost1.setLastName("MAURER");
 
-		Discussion discussion = new Discussion();
+		IDiscussion discussion = new Discussion();
 		if(discussionId == 1){
 			discussion.setId(1);
 			discussion.setSubject("Nouveau sujet de discussion");

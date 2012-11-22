@@ -3,7 +3,7 @@ package fr.soat.socialnetwork.bo;
 import java.util.Date;
 import java.util.List;
 
-public class Discussion {
+public class Discussion implements IDiscussion {
 
 	private int id;
 	private String subject;

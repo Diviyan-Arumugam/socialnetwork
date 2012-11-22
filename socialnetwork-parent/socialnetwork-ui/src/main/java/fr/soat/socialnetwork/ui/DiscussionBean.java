@@ -14,6 +14,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabCloseEvent;
 
 import fr.soat.socialnetwork.bo.Discussion;
+import fr.soat.socialnetwork.bo.IDiscussion;
 import fr.soat.socialnetwork.bo.User;
 import fr.soat.socialnetwork.service.discussion.IDiscussionService;
 
@@ -25,9 +26,9 @@ public class DiscussionBean implements Serializable {
 
 	private IDiscussionService discussionService;
 
-	private List<Discussion> allDiscussions;
-	private List<Discussion> openedDiscussions;
-	private Discussion currentDiscussion;
+	private List<IDiscussion> allDiscussions;
+	private List<IDiscussion> openedDiscussions;
+	private IDiscussion currentDiscussion;
 	private int tabIndex;
 
 	protected DiscussionBean()
@@ -52,29 +53,29 @@ public class DiscussionBean implements Serializable {
 		}
 	}
 
-	public Discussion getCurrentDiscussion() {
+	public IDiscussion getCurrentDiscussion() {
 		return currentDiscussion;
 	}
 
-	public void setCurrentDiscussion(Discussion currentDiscussion) {
+	public void setCurrentDiscussion(IDiscussion currentDiscussion) {
 		this.currentDiscussion = currentDiscussion;
 	}
 
-	public List<Discussion> getAllDiscussions() {
+	public List<IDiscussion> getAllDiscussions() {
 		return allDiscussions;
 	}
 
-	public void setAllDiscussions(List<Discussion> allDiscussions) {
+	public void setAllDiscussions(List<IDiscussion> allDiscussions) {
 		this.allDiscussions = allDiscussions;
 	}
 
 	public void onRowSelect(SelectEvent event) {  
-		int discussionId = ((Discussion) event.getObject()).getId();
+		int discussionId = ((IDiscussion) event.getObject()).getId();
 		int currentTabIndex = 1;
 		if(openedDiscussions == null){
-			openedDiscussions = new ArrayList<Discussion>();
+			openedDiscussions = new ArrayList<IDiscussion>();
 		}
-		for(Discussion discussion : openedDiscussions){
+		for(IDiscussion discussion : openedDiscussions){
 			if(discussion.getId() == discussionId){
 				tabIndex = currentTabIndex;
 				return;
@@ -86,11 +87,11 @@ public class DiscussionBean implements Serializable {
 		tabIndex = currentTabIndex;
     }
 
-	public List<Discussion> getOpenedDiscussions() {
+	public List<IDiscussion> getOpenedDiscussions() {
 		return openedDiscussions;
 	}
 
-	public void setOpenedDiscussions(List<Discussion> openedDiscussions) {
+	public void setOpenedDiscussions(List<IDiscussion> openedDiscussions) {
 		this.openedDiscussions = openedDiscussions;
 	}
 
@@ -103,7 +104,7 @@ public class DiscussionBean implements Serializable {
 	}
 
     public void closeDiscussion(TabCloseEvent event) {
-    	for(Discussion discussion : this.openedDiscussions){
+    	for(IDiscussion discussion : this.openedDiscussions){
     		if(event.getTab().getTitle().equals(discussion.getSubject())){
     			this.openedDiscussions.remove(discussion);
     			tabIndex = 0;
