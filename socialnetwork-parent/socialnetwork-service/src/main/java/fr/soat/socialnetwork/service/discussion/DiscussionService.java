@@ -9,8 +9,9 @@ import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
 import fr.soat.socialnetwork.bo.Discussion;
-import fr.soat.socialnetwork.bo.Group;
 import fr.soat.socialnetwork.bo.IDiscussion;
+import fr.soat.socialnetwork.bo.IGroup;
+import fr.soat.socialnetwork.bo.IPost;
 import fr.soat.socialnetwork.bo.Post;
 import fr.soat.socialnetwork.bo.User;
 
@@ -19,7 +20,7 @@ import fr.soat.socialnetwork.bo.User;
 @ Default
 public class DiscussionService implements IDiscussionService {
 
-	public List<IDiscussion> getAllDiscussionsByGroups(List<Group> groups) {
+	public List<IDiscussion> getAllDiscussionsByGroups(List<IGroup> groups) {
 		List<IDiscussion> discussions = new ArrayList<IDiscussion>();
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR,2012);
@@ -83,15 +84,15 @@ public class DiscussionService implements IDiscussionService {
 			discussion.setCreatedBy(userPost1);
 			discussion.setCreationTime(cal.getTime());
 	
-			List<Post> posts = new ArrayList<Post>();
+			List<IPost> posts = new ArrayList<IPost>();
 			
-			Post post1 = new Post();
+			IPost post1 = new Post();
 			post1.setDetail("Voici ce que j'ai à dire !");
 			post1.setPostedBy(userPost1);
 			post1.setPostTime(cal.getTime());
 			posts.add(post1);
 			
-			Post post2 = new Post();
+			IPost post2 = new Post();
 			post2.setDetail("Je ne suis pas d'accord !!!");
 			User userPost2 = new User();
 			userPost2.setLogin("userPost2");
@@ -102,7 +103,7 @@ public class DiscussionService implements IDiscussionService {
 			post2.setPostTime(cal.getTime());
 			posts.add(post2);
 	
-			Post post3 = new Post();
+			IPost post3 = new Post();
 			post3.setDetail("Moi non plus !!!");
 			User userPost3 = new User();
 			userPost3.setLogin("userPost3");
@@ -113,7 +114,7 @@ public class DiscussionService implements IDiscussionService {
 			post3.setPostTime(cal.getTime());
 			posts.add(post3);
 		
-			Post post4 = new Post();
+			IPost post4 = new Post();
 			post4.setDetail("C'est moi qui décide !");
 			post4.setPostedBy(userPost1);
 			cal.set(Calendar.DATE,14);
@@ -135,15 +136,15 @@ public class DiscussionService implements IDiscussionService {
 			discussion.setCreatedBy(userPost2);
 			discussion.setCreationTime(cal.getTime());
 	
-			List<Post> posts = new ArrayList<Post>();
+			List<IPost> posts = new ArrayList<IPost>();
 
-			Post post1 = new Post();
+			IPost post1 = new Post();
 			post1.setDetail("Je n'ai rien a dire !");
 			post1.setPostedBy(userPost2);
 			post1.setPostTime(cal.getTime());
 			posts.add(post1);
 			
-			Post post2 = new Post();
+			IPost post2 = new Post();
 			post2.setDetail("Pas mieux !!!");
 			post2.setPostedBy(userPost1);
 			cal.set(Calendar.DATE,18);

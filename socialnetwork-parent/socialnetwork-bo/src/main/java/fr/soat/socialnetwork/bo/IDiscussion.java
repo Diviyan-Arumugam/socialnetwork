@@ -17,13 +17,13 @@ public interface IDiscussion {
 
 	public abstract void setCreationTime(Date creationTime);
 
-	public abstract Group getGroup();
+	public abstract IGroup getGroup();
 
-	public abstract void setGroup(Group group);
+	public abstract void setGroup(IGroup group);
 
-	public abstract List<Post> getPosts();
+	public abstract List<IPost> getPosts();
 
-	public abstract void setPosts(List<Post> posts);
+	public abstract void setPosts(List<IPost> posts);
 
 	public abstract User getUpdatedBy();
 
@@ -33,8 +33,8 @@ public interface IDiscussion {
 
 	public abstract void setUpdateTime(Date updateTime);
 	
-	public int getId();
+	public Integer getId();
 
-	public void setId(int id);
+	public void setId(Integer id);
 
 }

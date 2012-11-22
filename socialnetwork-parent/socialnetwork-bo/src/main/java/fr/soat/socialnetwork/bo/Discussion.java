@@ -5,20 +5,20 @@ import java.util.List;
 
 public class Discussion implements IDiscussion {
 
-	private int id;
+	private Integer id;
 	private String subject;
 	private User createdBy;
 	private Date creationTime;
 	private User updatedBy;
 	private Date updateTime;
-	private Group group;
+	private IGroup group;
 	
-	private List<Post> posts;
+	private List<IPost> posts;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getSubject() {
@@ -39,16 +39,16 @@ public class Discussion implements IDiscussion {
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
 	}
-	public Group getGroup() {
+	public IGroup getGroup() {
 		return group;
 	}
-	public void setGroup(Group group) {
+	public void setGroup(IGroup group) {
 		this.group = group;
 	}
-	public List<Post> getPosts() {
+	public List<IPost> getPosts() {
 		return posts;
 	}
-	public void setPosts(List<Post> posts) {
+	public void setPosts(List<IPost> posts) {
 		this.posts = posts;
 	}
 	public User getUpdatedBy() {

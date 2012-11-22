@@ -2,12 +2,19 @@ package fr.soat.socialnetwork.bo;
 
 import java.util.Date;
 
-public class Post {
+public class Post implements IPost {
 
+	private Integer id;
 	private String detail;
 	private User postedBy;
 	private Date postTime;
 	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getDetail() {
 		return detail;
 	}
