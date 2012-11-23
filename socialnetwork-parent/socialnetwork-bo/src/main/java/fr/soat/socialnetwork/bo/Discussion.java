@@ -7,9 +7,9 @@ public class Discussion implements IDiscussion {
 
 	private Integer id;
 	private String subject;
-	private User createdBy;
+	private IUser createdBy;
 	private Date creationTime;
-	private User updatedBy;
+	private IUser updatedBy;
 	private Date updateTime;
 	private IGroup group;
 	
@@ -27,10 +27,10 @@ public class Discussion implements IDiscussion {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public User getCreatedBy() {
+	public IUser getCreatedBy() {
 		return createdBy;
 	}
-	public void setCreatedBy(User createdBy) {
+	public void setCreatedBy(IUser createdBy) {
 		this.createdBy = createdBy;
 	}
 	public Date getCreationTime() {
@@ -51,10 +51,10 @@ public class Discussion implements IDiscussion {
 	public void setPosts(List<IPost> posts) {
 		this.posts = posts;
 	}
-	public User getUpdatedBy() {
+	public IUser getUpdatedBy() {
 		return updatedBy;
 	}
-	public void setUpdatedBy(User updatedBy) {
+	public void setUpdatedBy(IUser updatedBy) {
 		this.updatedBy = updatedBy;
 	}
 	public Date getUpdateTime() {

@@ -1,5 +1,7 @@
 package fr.soat.socialnetwork.bo;
 
+import java.util.List;
+
 public interface IUser {
 
 	String getLogin();
@@ -18,4 +20,8 @@ public interface IUser {
 	void setPassword(String password) ;
 
 	boolean isValidUser();
+	
+	public List<IGroup> getGroups();
+
+	public void setGroups(List<IGroup> groups);
 }

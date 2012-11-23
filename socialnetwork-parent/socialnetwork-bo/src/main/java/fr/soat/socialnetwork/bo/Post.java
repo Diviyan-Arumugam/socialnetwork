@@ -6,7 +6,7 @@ public class Post implements IPost {
 
 	private Integer id;
 	private String detail;
-	private User postedBy;
+	private IUser postedBy;
 	private Date postTime;
 	
 	public Integer getId() {
@@ -21,10 +21,10 @@ public class Post implements IPost {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	public User getPostedBy() {
+	public IUser getPostedBy() {
 		return postedBy;
 	}
-	public void setPostedBy(User postedBy) {
+	public void setPostedBy(IUser postedBy) {
 		this.postedBy = postedBy;
 	}
 	public Date getPostTime() {

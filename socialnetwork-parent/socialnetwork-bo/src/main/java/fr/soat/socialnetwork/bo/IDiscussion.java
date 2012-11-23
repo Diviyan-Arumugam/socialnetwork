@@ -9,9 +9,9 @@ public interface IDiscussion {
 
 	public abstract void setSubject(String subject);
 
-	public abstract User getCreatedBy();
+	public abstract IUser getCreatedBy();
 
-	public abstract void setCreatedBy(User createdBy);
+	public abstract void setCreatedBy(IUser createdBy);
 
 	public abstract Date getCreationTime();
 
@@ -25,14 +25,14 @@ public interface IDiscussion {
 
 	public abstract void setPosts(List<IPost> posts);
 
-	public abstract User getUpdatedBy();
+	public abstract IUser getUpdatedBy();
 
-	public abstract void setUpdatedBy(User updatedBy);
+	public abstract void setUpdatedBy(IUser updatedBy);
 
 	public abstract Date getUpdateTime();
 
 	public abstract void setUpdateTime(Date updateTime);
-	
+
 	public Integer getId();
 
 	public void setId(Integer id);

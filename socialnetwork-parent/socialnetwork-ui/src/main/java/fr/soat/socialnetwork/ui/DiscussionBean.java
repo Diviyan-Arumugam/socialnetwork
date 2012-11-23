@@ -13,9 +13,8 @@ import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabCloseEvent;
 
-import fr.soat.socialnetwork.bo.Discussion;
 import fr.soat.socialnetwork.bo.IDiscussion;
-import fr.soat.socialnetwork.bo.User;
+import fr.soat.socialnetwork.bo.IUser;
 import fr.soat.socialnetwork.service.discussion.IDiscussionService;
 
 @Named("discussionBean")
@@ -45,7 +44,7 @@ public class DiscussionBean implements Serializable {
 	@PostConstruct
 	public void init()
 	{
-		User user = (User) FacesContext.getCurrentInstance().getExternalContext()
+		IUser user = (IUser) FacesContext.getCurrentInstance().getExternalContext()
 		        .getSessionMap().get(LoginBean.AUTH_KEY);
 		if(user != null){
 			this.allDiscussions = discussionService.getAllDiscussionsByGroups(user.getGroups());

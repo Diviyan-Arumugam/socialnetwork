@@ -12,9 +12,9 @@ public interface IPost {
 
 	public abstract void setDetail(String detail);
 
-	public abstract User getPostedBy();
+	public abstract IUser getPostedBy();
 
-	public abstract void setPostedBy(User postedBy);
+	public abstract void setPostedBy(IUser postedBy);
 
 	public abstract Date getPostTime();
 

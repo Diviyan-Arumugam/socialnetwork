@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
-    <persistence-unit name="soatsocial" transaction-type="RESOURCE_LOCAL">
-        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-        <class>fr.soat.socialnetwork.dao.entity.UserDTO</class>
-        <exclude-unlisted-classes>true</exclude-unlisted-classes>
-        <properties>
-            <property name="openjpa.ConnectionURL" value="jdbc:mysql://ec2-23-21-211-172.compute-1.amazonaws.com/socialnetwork"/>
-            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
-            <property name="openjpa.ConnectionUserName" value="socialnetwork"/>
-            <property name="openjpa.ConnectionPassword" value="soatsocial"/>
-            <property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO"/>        
-        </properties>
-    </persistence-unit>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<persistence-unit name="soatsocial" transaction-type="JTA">
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl
+		</provider>
+		<class>fr.soat.socialnetwork.dao.entity.UserDTO</class>
+		<class>fr.soat.socialnetwork.dao.entity.PostDTO</class>
+		<class>fr.soat.socialnetwork.dao.entity.GroupDTO</class>
+		<class>fr.soat.socialnetwork.dao.entity.DiscussionDTO</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="openjpa.ConnectionURL"
+				value="jdbc:mysql://ec2-23-21-211-172.compute-1.amazonaws.com/socialnetwork" />
+			<property name="openjpa.jdbc.Schema" value="socialnetwork" />
+			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
+			<property name="openjpa.ConnectionUserName" value="socialnetwork" />
+			<property name="openjpa.ConnectionPassword" value="soatsocial" />
+			<property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO" />
+			<property name="openjpa.Log" value="SQL=TRACE" />
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)" />
+		</properties>
+	</persistence-unit>
 </persistence>

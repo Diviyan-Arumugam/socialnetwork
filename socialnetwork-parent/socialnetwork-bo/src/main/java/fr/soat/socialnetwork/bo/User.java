@@ -9,7 +9,7 @@ public class User implements IUser {
 	private String lastName;
 	private String email;
 	private String password;
-	private List<Group> groups;
+	private List<IGroup> groups;
 
 	public String getFirstName() {
 		return firstName;
@@ -55,11 +55,11 @@ public class User implements IUser {
 		this.login = login;
 	}
 
-	public List<Group> getGroups() {
+	public List<IGroup> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(List<Group> groups) {
+	public void setGroups(List<IGroup> groups) {
 		this.groups = groups;
 	}
 

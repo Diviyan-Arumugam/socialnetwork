@@ -23,10 +23,12 @@ import fr.soat.socialnetwork.service.login.ILoginService;
 @RequestScoped
 public class LoginBean {
 
+	public static final String AUTH_KEY = "loggedUser";
+	
 	private ILoginService loginService;
    	private IRememberMeService rememberMeService;
 
-	private Optional<IRememberedUser> rememberedUser;
+   	private Optional<IRememberedUser> rememberedUser;
 
 	private String login;
 	private String password;
@@ -34,7 +36,6 @@ public class LoginBean {
 
 	private String headerAction;
 
-	public static final String AUTH_KEY = "loggedUser";
 	
 	protected LoginBean()
 	{
