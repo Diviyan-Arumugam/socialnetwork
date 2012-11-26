@@ -1,35 +1,32 @@
 package fr.soat.socialnetwork.ui;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.TabCloseEvent;
 
 import fr.soat.socialnetwork.bo.Discussion;
-import fr.soat.socialnetwork.bo.User;
+import fr.soat.socialnetwork.bo.Post;
 import fr.soat.socialnetwork.service.discussion.IDiscussionService;
 
 @Named("discussionBean")
-@ViewScoped
-public class DiscussionBean implements Serializable {
-
-	private static final long serialVersionUID = 910121394151244927L;
+@RequestScoped
+public class DiscussionBean {
 
 	private IDiscussionService discussionService;
 
 	private List<Discussion> allDiscussions;
-	private List<Discussion> openedDiscussions;
 	private Discussion currentDiscussion;
-	private int tabIndex;
-
+	private String currentAnswer;
+	
+	@Inject
+	private SessionBean sessionBean;
+	
 	protected DiscussionBean()
 	{
 	}
@@ -39,17 +36,12 @@ public class DiscussionBean implements Serializable {
 			IDiscussionService discussionService)
 	{
 		this.discussionService = discussionService;
+		this.currentDiscussion = null;
 	}
 
 	@PostConstruct
 	public void init()
 	{
-		User user = (User) FacesContext.getCurrentInstance().getExternalContext()
-		        .getSessionMap().get(LoginBean.AUTH_KEY);
-		if(user != null){
-			this.allDiscussions = discussionService.getAllDiscussionsByGroups(user.getGroups());
-			this.tabIndex = 0;
-		}
 	}
 
 	public Discussion getCurrentDiscussion() {
@@ -61,54 +53,31 @@ public class DiscussionBean implements Serializable {
 	}
 
 	public List<Discussion> getAllDiscussions() {
-		return allDiscussions;
+		return discussionService.getAllDiscussionsByGroups(this.sessionBean.getUser().getGroups());
 	}
 
-	public void setAllDiscussions(List<Discussion> allDiscussions) {
-		this.allDiscussions = allDiscussions;
+    public String getCurrentAnswer() {
+		return currentAnswer;
 	}
 
+	public void setCurrentAnswer(String currentAnswer) {
+		this.currentAnswer = currentAnswer;
+	}
+
+	// We always reload discussion (perhaps, it has been updated
 	public void onRowSelect(SelectEvent event) {  
-		int discussionId = ((Discussion) event.getObject()).getId();
-		int currentTabIndex = 1;
-		if(openedDiscussions == null){
-			openedDiscussions = new ArrayList<Discussion>();
-		}
-		for(Discussion discussion : openedDiscussions){
-			if(discussion.getId() == discussionId){
-				tabIndex = currentTabIndex;
-				return;
-			}
-			currentTabIndex++;
-		}
+		Integer discussionId = ((Discussion) event.getObject()).getId();
 		this.currentDiscussion = discussionService.getDiscussionById(discussionId);
-		openedDiscussions.add(this.currentDiscussion);
-		tabIndex = currentTabIndex;
     }
 
-	public List<Discussion> getOpenedDiscussions() {
-		return openedDiscussions;
-	}
-
-	public void setOpenedDiscussions(List<Discussion> openedDiscussions) {
-		this.openedDiscussions = openedDiscussions;
-	}
-
-	public int getTabIndex() {
-		return tabIndex;
-	}
-
-	public void setTabIndex(int tabIndex) {
-		this.tabIndex = tabIndex;
-	}
-
-    public void closeDiscussion(TabCloseEvent event) {
-    	for(Discussion discussion : this.openedDiscussions){
-    		if(event.getTab().getTitle().equals(discussion.getSubject())){
-    			this.openedDiscussions.remove(discussion);
-    			tabIndex = 0;
-    			break;
-    		}
+	public void addAnswer() {
+    	if(this.currentAnswer != null && !this.currentAnswer.isEmpty()){
+    		Post post = new Post();
+    		post.setDetail(this.currentAnswer);
+    		post.setPostedBy(this.sessionBean.getUser());
+    		post.setPostTime(new Date());
+    		this.currentDiscussion.getPosts().add(post);
+    		this.currentAnswer = null;
     	}
-    } 
+    }
 }

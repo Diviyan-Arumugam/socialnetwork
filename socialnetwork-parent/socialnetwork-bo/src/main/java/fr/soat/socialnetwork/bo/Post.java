@@ -5,7 +5,7 @@ import java.util.Date;
 public class Post {
 
 	private String detail;
-	private User postedBy;
+	private IUser postedBy;
 	private Date postTime;
 	
 	public String getDetail() {
@@ -14,10 +14,10 @@ public class Post {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	public User getPostedBy() {
+	public IUser getPostedBy() {
 		return postedBy;
 	}
-	public void setPostedBy(User postedBy) {
+	public void setPostedBy(IUser postedBy) {
 		this.postedBy = postedBy;
 	}
 	public Date getPostTime() {

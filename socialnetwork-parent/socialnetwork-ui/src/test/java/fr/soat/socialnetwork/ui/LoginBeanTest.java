@@ -40,7 +40,7 @@ public class LoginBeanTest {
 	private IRememberMeService rememberMeService;
 
 	@Mock
-	private UserSessionBean userSession;
+	private SessionBean userSession;
 
 	private FacesContext facesContext = ContextMocker.mockFacesContext();
 

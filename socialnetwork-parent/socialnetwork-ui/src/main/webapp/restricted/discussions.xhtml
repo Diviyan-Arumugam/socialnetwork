@@ -18,63 +18,41 @@
     <p:panelGrid columns="2" styleClass="mainScreen"> 
     <p:column><ui:include src="/template/commonMenu.xhtml" /></p:column>
     <p:column styleClass="mainScreen">
-    	<p:tabView id="discussionTabView" activeIndex="#{discussionBean.tabIndex}">
-    		<p:ajax event="tabClose" listener="#{discussionBean.closeDiscussion}" update=":discussionTabView"/> 
-		    <p:tab id="allDiscussionTab" title="#{msg['discussiontab.discussions.label']}">  
-		        <p:dataTable id="discussions" var="discussion" value="#{discussionBean.allDiscussions}" paginator="true" rows="10"
-		        	selection="#{discussionBean.currentDiscussion}" selectionMode="single" rowKey="#{discussion.id}" styleClass="discussions">  
-					<p:ajax event="rowSelect" listener="#{discussionBean.onRowSelect}"   
-                    	update=":discussionTabView" />  
-			        <p:column headerText="Sujet">
-			        	<h:outputText value="#{discussion.subject}"/>  
-			        </p:column>  
-			  
-			        <p:column headerText="cree par">  
-			            <h:outputText value="#{discussion.createdBy.login} - #{discussion.createdBy.firstName} #{discussion.createdBy.lastName}"/>
-			        </p:column>  
-			  
-			        <p:column headerText="cree le" >  
-			            <h:outputText value="#{discussion.creationTime}">
-			            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-			            </h:outputText>
-			        </p:column>  
-			  
-			        <p:column headerText="MAJ par">  
-			            <h:outputText value="#{discussion.updatedBy.login} - #{discussion.updatedBy.firstName} #{discussion.updatedBy.lastName}"/>
-			        </p:column>  
-
-			        <p:column headerText="MAJ le">  
-			            <h:outputText value="#{discussion.updateTime}">
-			            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-			            </h:outputText> 
-			        </p:column>  
-			    </p:dataTable>  
-		    </p:tab>  
-		    <c:forEach items="#{discussionBean.openedDiscussions}" var="openedDiscussion">
-		   		<p:tab title="#{openedDiscussion.subject}" closable="true">
-		   			<c:forEach items="#{openedDiscussion.posts}" var="post">
-			    		<p:panelGrid styleClass="postPanelGrid">
-	    					<p:row>
-	    						<p:column styleClass="postLogin">
-	    							<h:outputText value="#{post.postedBy.login} - #{post.postedBy.firstName} #{post.postedBy.lastName}"/>
-	    						</p:column>
-	    						<p:column rowspan="2">
-	    							<h:outputText value="#{post.detail}"/>
-	    						</p:column>
-	    					</p:row>
-	    					<p:row>
-					            <p:column styleClass="postTime">
-						            <h:outputText value="#{post.postTime}">
-						            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-						            </h:outputText>
-						        </p:column>
-	    					</p:row>
-			    		</p:panelGrid>
-		        	</c:forEach>
-			    </p:tab>
-		    </c:forEach>
-		</p:tabView></p:column>
-		</p:panelGrid>
+    	<p:panel>
+	        <p:dataTable id="discussions" var="discussion" value="#{discussionBean.allDiscussions}" paginator="true" rows="10"
+	        	selectionMode="single" rowKey="#{discussion.id}" styleClass="discussions ui-corner-all">  
+				<p:ajax event="rowSelect" listener="#{discussionBean.onRowSelect}"   
+	                  	/>  
+		        <p:column headerText="#{msg['discussiontab.discussions.subject.header']}">
+		        	<h:outputText value="#{discussion.subject}"/>  
+		        </p:column>  
+		  
+		        <p:column headerText="#{msg['discussiontab.discussions.createdby.header']}">  
+		            <h:outputText value="#{discussion.createdBy.login} - #{discussion.createdBy.firstName} #{discussion.createdBy.lastName}"/>
+		        </p:column>  
+		  
+		        <p:column headerText="#{msg['discussiontab.discussions.creationtime.header']}" >  
+		            <h:outputText value="#{discussion.creationTime}">
+		            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+		            </h:outputText>
+		        </p:column>  
+		  
+		        <p:column headerText="#{msg['discussiontab.discussions.updatedby.header']}">  
+		            <h:outputText value="#{discussion.updatedBy.login} - #{discussion.updatedBy.firstName} #{discussion.updatedBy.lastName}"/>
+		        </p:column>  
+	
+		        <p:column headerText="#{msg['discussiontab.discussions.updatetime.header']}">  
+		            <h:outputText value="#{discussion.updateTime}">
+		            	<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+		            </h:outputText> 
+		        </p:column>  
+		    </p:dataTable>
+		    <p:panel id="discussion" renderer="#{discussionBean.currentDiscussion ne null}">
+		    <h:outputText value="#{discussionBean.currentDiscussion}"></h:outputText>
+		    </p:panel>
+		</p:panel>
+	</p:column>
+	</p:panelGrid>
 </h:body>
 
 </html>

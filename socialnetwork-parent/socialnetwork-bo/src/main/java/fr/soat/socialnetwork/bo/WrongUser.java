@@ -1,5 +1,7 @@
 package fr.soat.socialnetwork.bo;
 
+import java.util.List;
+
 public class WrongUser implements IUser {
 
 	public boolean isValidUser() {
@@ -39,5 +41,12 @@ public class WrongUser implements IUser {
 	}
 
 	public void setLogin(String login) {
+	}
+
+	public List<Group> getGroups() {
+		return null;
+	}
+
+	public void setGroups(List<Group> groups) {
 	}
 }

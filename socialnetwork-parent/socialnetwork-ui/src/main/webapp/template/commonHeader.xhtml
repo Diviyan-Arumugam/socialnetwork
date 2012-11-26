@@ -10,13 +10,11 @@
 		<p:column><p:graphicImage value="/resources/images/soat-logo.png" /></p:column>
 		<p:column><p:graphicImage value="/resources/images/Bandeau_client_home.png"/></p:column>
 		<p:column>
-			<p:panelGrid columns="1" rendered="#{login.loggedIn}">
-			<p:selectOneMenu id="headerMenu" value="#{login.headerAction}" styleClass="headerAction">  
-				<p:ajax listener="#{login.handleAction}"/>
-	            <f:selectItem itemLabel="#{loggedUser.login}" itemValue="loggedUser"/>  
-	            <f:selectItem itemLabel="#{msg['header.disconnect.link']}" itemValue="logoutAction"/>  
-	        </p:selectOneMenu> 
-		    </p:panelGrid>
+			<h:form id="headerForm">
+			    <p:menuButton value="#{loggedUser.login}" rendered="#{login.loggedIn}" id="headerMenu">  
+	                <p:menuitem value="#{msg['header.disconnect.link']}" onclick="logoutConfirmation.show()" />  
+	            </p:menuButton>
+	        </h:form>
 			<p:spacer rendered="#{not login.loggedIn}"/>
 		</p:column>
  	</p:panelGrid>
@@ -26,8 +24,6 @@
                 severity="alert" widgetVar="logoutConfirmation">  
         <p:commandButton id="confirm" value="#{msg['common.yes.label']}" oncomplete="logoutConfirmation.hide()"  
                     actionListener="#{login.logout}" />  
-        <p:commandButton id="decline" value="#{msg['common.no.label']}" onclick="logoutConfirmation.hide();" type="button">
-        	<p:ajax update="headerMenu"/>
-        </p:commandButton>
+        <p:commandButton id="decline" value="#{msg['common.no.label']}" onclick="logoutConfirmation.hide();" type="button"/>
     </p:confirmDialog>  
 </ui:composition>
