@@ -21,6 +21,6 @@ public interface IUser {
 
 	boolean isValidUser();
 	
-	public List<Group> getGroups();
-	public void setGroups(List<Group> groups);
+	public List<IGroup> getGroups();
+	public void setGroups(List<IGroup> groups);
 }

@@ -9,17 +9,19 @@ import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
 import fr.soat.socialnetwork.bo.Discussion;
-import fr.soat.socialnetwork.bo.Group;
+import fr.soat.socialnetwork.bo.IDiscussion;
+import fr.soat.socialnetwork.bo.IGroup;
+import fr.soat.socialnetwork.bo.IPost;
 import fr.soat.socialnetwork.bo.Post;
 import fr.soat.socialnetwork.bo.User;
 
 @Named("DiscussionService")
 @ApplicationScoped
 @ Default
-public class DiscussionService implements IDiscussionService{
+public class DiscussionService implements IDiscussionService {
 
-	public List<Discussion> getAllDiscussionsByGroups(List<Group> groups) {
-		List<Discussion> discussions = new ArrayList<Discussion>();
+	public List<IDiscussion> getAllDiscussionsByGroups(List<IGroup> groups) {
+		List<IDiscussion> discussions = new ArrayList<IDiscussion>();
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR,2012);
 		cal.set(Calendar.MONTH,11);
@@ -29,7 +31,7 @@ public class DiscussionService implements IDiscussionService{
 		userPost1.setFirstName("Didier");
 		userPost1.setLastName("MAURER");
 
-		Discussion discussion1 = new Discussion();
+		IDiscussion discussion1 = new Discussion();
 		discussion1.setId(1);
 		discussion1.setSubject("Nouveau sujet de discussion");
 		discussion1.setCreatedBy(userPost1);
@@ -49,7 +51,7 @@ public class DiscussionService implements IDiscussionService{
 		userPost2.setFirstName("Guillaume");
 		userPost2.setLastName("PREHU");
 
-		Discussion discussion2 = new Discussion();
+		IDiscussion discussion2 = new Discussion();
 		discussion2.setId(2);
 		discussion2.setSubject("Autre nouveau sujet de discussion");
 		discussion2.setCreatedBy(userPost2);
@@ -65,7 +67,7 @@ public class DiscussionService implements IDiscussionService{
 		return discussions;
 	}
 
-	public Discussion getDiscussionById(int discussionId) {
+	public IDiscussion getDiscussionById(int discussionId) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR,2012);
 		cal.set(Calendar.MONTH,11);
@@ -75,22 +77,22 @@ public class DiscussionService implements IDiscussionService{
 		userPost1.setFirstName("Didier");
 		userPost1.setLastName("MAURER");
 
-		Discussion discussion = new Discussion();
+		IDiscussion discussion = new Discussion();
 		if(discussionId == 1){
 			discussion.setId(1);
 			discussion.setSubject("Nouveau sujet de discussion");
 			discussion.setCreatedBy(userPost1);
 			discussion.setCreationTime(cal.getTime());
 	
-			List<Post> posts = new ArrayList<Post>();
+			List<IPost> posts = new ArrayList<IPost>();
 			
-			Post post1 = new Post();
+			IPost post1 = new Post();
 			post1.setDetail("Voici ce que j'ai à dire !");
 			post1.setPostedBy(userPost1);
 			post1.setPostTime(cal.getTime());
 			posts.add(post1);
 			
-			Post post2 = new Post();
+			IPost post2 = new Post();
 			post2.setDetail("Je ne suis pas d'accord !!!");
 			User userPost2 = new User();
 			userPost2.setLogin("userPost2");
@@ -101,7 +103,7 @@ public class DiscussionService implements IDiscussionService{
 			post2.setPostTime(cal.getTime());
 			posts.add(post2);
 	
-			Post post3 = new Post();
+			IPost post3 = new Post();
 			post3.setDetail("Moi non plus !!!");
 			User userPost3 = new User();
 			userPost3.setLogin("userPost3");
@@ -112,7 +114,7 @@ public class DiscussionService implements IDiscussionService{
 			post3.setPostTime(cal.getTime());
 			posts.add(post3);
 		
-			Post post4 = new Post();
+			IPost post4 = new Post();
 			post4.setDetail("C'est moi qui décide !");
 			post4.setPostedBy(userPost1);
 			cal.set(Calendar.DATE,14);
@@ -134,15 +136,15 @@ public class DiscussionService implements IDiscussionService{
 			discussion.setCreatedBy(userPost2);
 			discussion.setCreationTime(cal.getTime());
 	
-			List<Post> posts = new ArrayList<Post>();
+			List<IPost> posts = new ArrayList<IPost>();
 
-			Post post1 = new Post();
+			IPost post1 = new Post();
 			post1.setDetail("Je n'ai rien a dire !");
 			post1.setPostedBy(userPost2);
 			post1.setPostTime(cal.getTime());
 			posts.add(post1);
 			
-			Post post2 = new Post();
+			IPost post2 = new Post();
 			post2.setDetail("Pas mieux !!!");
 			post2.setPostedBy(userPost1);
 			cal.set(Calendar.DATE,18);

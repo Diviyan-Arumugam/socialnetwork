@@ -10,7 +10,8 @@ import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 
-import fr.soat.socialnetwork.bo.Discussion;
+import fr.soat.socialnetwork.bo.IDiscussion;
+import fr.soat.socialnetwork.bo.IPost;
 import fr.soat.socialnetwork.bo.Post;
 import fr.soat.socialnetwork.service.discussion.IDiscussionService;
 
@@ -20,8 +21,8 @@ public class DiscussionBean {
 
 	private IDiscussionService discussionService;
 
-	private List<Discussion> allDiscussions;
-	private Discussion currentDiscussion;
+	private List<IDiscussion> allDiscussions;
+	private IDiscussion currentDiscussion;
 	private String currentAnswer;
 	
 	@Inject
@@ -44,20 +45,12 @@ public class DiscussionBean {
 	{
 	}
 
-	public Discussion getCurrentDiscussion() {
+	public IDiscussion getCurrentDiscussion() {
 		return currentDiscussion;
 	}
 
-	public void setCurrentDiscussion(Discussion currentDiscussion) {
+	public void setCurrentDiscussion(IDiscussion currentDiscussion) {
 		this.currentDiscussion = currentDiscussion;
-	}
-
-	public List<Discussion> getAllDiscussions() {
-		return discussionService.getAllDiscussionsByGroups(this.sessionBean.getUser().getGroups());
-	}
-
-    public String getCurrentAnswer() {
-		return currentAnswer;
 	}
 
 	public void setCurrentAnswer(String currentAnswer) {
@@ -66,18 +59,18 @@ public class DiscussionBean {
 
 	// We always reload discussion (perhaps, it has been updated
 	public void onRowSelect(SelectEvent event) {  
-		Integer discussionId = ((Discussion) event.getObject()).getId();
+		Integer discussionId = ((IDiscussion) event.getObject()).getId();
 		this.currentDiscussion = discussionService.getDiscussionById(discussionId);
     }
 
 	public void addAnswer() {
     	if(this.currentAnswer != null && !this.currentAnswer.isEmpty()){
-    		Post post = new Post();
+    		IPost post = new Post();
     		post.setDetail(this.currentAnswer);
     		post.setPostedBy(this.sessionBean.getUser());
     		post.setPostTime(new Date());
     		this.currentDiscussion.getPosts().add(post);
     		this.currentAnswer = null;
     	}
-    }
+	}
 }

@@ -43,10 +43,10 @@ public class WrongUser implements IUser {
 	public void setLogin(String login) {
 	}
 
-	public List<Group> getGroups() {
+	public List<IGroup> getGroups() {
 		return null;
 	}
 
-	public void setGroups(List<Group> groups) {
+	public void setGroups(List<IGroup> groups) {
 	}
 }

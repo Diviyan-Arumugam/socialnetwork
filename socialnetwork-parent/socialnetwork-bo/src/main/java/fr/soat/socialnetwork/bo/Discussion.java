@@ -3,22 +3,22 @@ package fr.soat.socialnetwork.bo;
 import java.util.Date;
 import java.util.List;
 
-public class Discussion {
+public class Discussion implements IDiscussion {
 
-	private int id;
+	private Integer id;
 	private String subject;
-	private User createdBy;
+	private IUser createdBy;
 	private Date creationTime;
-	private User updatedBy;
+	private IUser updatedBy;
 	private Date updateTime;
-	private Group group;
+	private IGroup group;
 	
-	private List<Post> posts;
+	private List<IPost> posts;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getSubject() {
@@ -27,10 +27,10 @@ public class Discussion {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public User getCreatedBy() {
+	public IUser getCreatedBy() {
 		return createdBy;
 	}
-	public void setCreatedBy(User createdBy) {
+	public void setCreatedBy(IUser createdBy) {
 		this.createdBy = createdBy;
 	}
 	public Date getCreationTime() {
@@ -39,22 +39,22 @@ public class Discussion {
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
 	}
-	public Group getGroup() {
+	public IGroup getGroup() {
 		return group;
 	}
-	public void setGroup(Group group) {
+	public void setGroup(IGroup group) {
 		this.group = group;
 	}
-	public List<Post> getPosts() {
+	public List<IPost> getPosts() {
 		return posts;
 	}
-	public void setPosts(List<Post> posts) {
+	public void setPosts(List<IPost> posts) {
 		this.posts = posts;
 	}
-	public User getUpdatedBy() {
+	public IUser getUpdatedBy() {
 		return updatedBy;
 	}
-	public void setUpdatedBy(User updatedBy) {
+	public void setUpdatedBy(IUser updatedBy) {
 		this.updatedBy = updatedBy;
 	}
 	public Date getUpdateTime() {

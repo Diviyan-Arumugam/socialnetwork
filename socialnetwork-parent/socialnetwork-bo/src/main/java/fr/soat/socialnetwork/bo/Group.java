@@ -1,10 +1,17 @@
 package fr.soat.socialnetwork.bo;
 
-public class Group {
+public class Group implements IGroup {
 
-	String label;
-	String detail;
+	private Integer id;
+	private String label;
+	private String detail;
 	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getLabel() {
 		return label;
 	}
